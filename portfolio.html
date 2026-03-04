@@ -1,0 +1,772 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio | Tri-EcoTeq Architects</title>
+    <link rel="icon" type="image/png" href="images/Tri-EcoTeq Architects Logo.png" />
+    <meta name="description" content="Tri-EcoTeq Architects is a Nairobi-based architectural and interior design studio creating functional, economical, and aesthetically refined spaces." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #e3f0fb;
+        --bg-alt: #d7e7f6;
+        --text: #152238;
+        --muted: #5a6f88;
+        --accent: #1f6f8b;
+        --accent-2: #4f9db5;
+        --card: #f7fbff;
+        --border: rgba(21, 34, 56, 0.12);
+        --shadow: 0 14px 36px rgba(22, 51, 84, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 12% 10%, #d9ecff 0%, #c8e2f9 36%, transparent 60%),
+          linear-gradient(180deg, #d5e8f8 0%, #deedf9 52%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      main {
+        min-height: 70vh;
+      }
+
+      .container {
+        width: min(1120px, 90%);
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.92), rgba(236, 231, 223, 0.9));
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(28, 27, 26, 0.1);
+        box-shadow: 0 10px 26px rgba(20, 20, 20, 0.06);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "Playfair Display", serif;
+        flex-shrink: 0;
+      }
+
+      .brand-text {
+        font-size: 1.08rem;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+
+      .brand-mark {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(28, 27, 26, 0.12);
+        background: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      }
+
+      .brand-mark img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.66);
+        border: 1px solid rgba(28, 27, 26, 0.08);
+        border-radius: 999px;
+        padding: 6px;
+      }
+
+      .nav-links a {
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-weight: 500;
+        color: #35322f;
+        transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      }
+
+      .nav-links a:hover {
+        background: rgba(58, 90, 75, 0.12);
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .nav-links a.active {
+        font-weight: 600;
+      }
+
+      .nav-links a.active:not(.cta) {
+        color: #fff;
+        background: var(--accent);
+        text-decoration: none;
+      }
+
+      .nav-links .cta {
+        background: linear-gradient(135deg, #318aa5, #236b82);
+        color: #fff;
+      }
+
+      .nav-links .cta:hover {
+        background: linear-gradient(135deg, #236b82, #1b5567);
+        color: #fff;
+      }
+
+      .nav-links .cta.active {
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+      }
+
+      .hero {
+        padding: 80px 0 60px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        align-items: center;
+      }
+
+      .hero-image {
+        height: 420px;
+        border-radius: 24px;
+        background-size: cover;
+        background-position: center;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        transform: scale(1);
+        animation: heroZoom 18s ease-in-out infinite alternate;
+        will-change: transform;
+      }
+
+      @keyframes heroZoom {
+        0% {
+          transform: scale(1) translate(0%, 0%);
+        }
+        100% {
+          transform: scale(1.12) translate(-2%, -2%);
+        }
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      h1, h2, h3 {
+        font-family: "Playfair Display", serif;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 4vw, 3.6rem);
+        margin: 12px 0;
+      }
+
+      .lead {
+        font-size: 1.1rem;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        padding: 12px 20px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 500;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      .button.ghost {
+        background: transparent;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+      }
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .section.alt {
+        background:
+          linear-gradient(145deg, rgba(207, 229, 248, 0.7), rgba(184, 213, 239, 0.78)),
+          var(--bg-alt);
+      }
+
+      .section-header {
+        margin-bottom: 32px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 32px;
+      }
+
+      .card {
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(228, 240, 254, 0.9));
+        padding: 24px;
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 34px rgba(18, 52, 89, 0.18);
+      }
+
+      .project-card {
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(226, 239, 254, 0.9));
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
+        position: relative;
+      }
+
+      .project-card:hover {
+        transform: translateY(-9px) scale(1.01);
+        box-shadow: 0 24px 44px rgba(10, 32, 58, 0.3);
+      }
+
+      .project-thumb {
+        height: 220px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), filter 0.5s ease;
+        transform-origin: center;
+      }
+
+      .project-thumb::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(170deg, rgba(0, 0, 0, 0.04) 5%, rgba(7, 19, 36, 0.58) 100%);
+        opacity: 0.54;
+        transition: opacity 0.45s ease;
+      }
+
+      .project-thumb::after {
+        content: "";
+        position: absolute;
+        top: -35%;
+        left: -170%;
+        width: 125%;
+        height: 190%;
+        background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.12) 46%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.12) 54%, transparent 100%);
+        transform: rotate(12deg);
+        transition: left 0.9s ease;
+      }
+
+      .project-card:hover .project-thumb {
+        transform: scale(1.1) rotate(-1deg);
+        filter: saturate(1.15) contrast(1.08);
+      }
+
+      .project-card:hover .project-thumb::before {
+        opacity: 0.35;
+      }
+
+      .project-card:hover .project-thumb::after {
+        left: 140%;
+      }
+
+      .project-meta {
+        padding: 16px;
+        background: linear-gradient(180deg, rgba(247, 251, 255, 0.92), rgba(235, 245, 255, 0.9));
+        transform: translateY(0);
+        transition: transform 0.45s ease, background-color 0.45s ease;
+      }
+
+      .project-meta h3,
+      .project-meta p {
+        transition: transform 0.45s ease, opacity 0.45s ease;
+      }
+
+      .project-meta p {
+        opacity: 0.88;
+      }
+
+      .project-card:hover .project-meta {
+        transform: translateY(-2px);
+      }
+
+      .project-card:hover .project-meta h3 {
+        transform: translateY(-2px);
+      }
+
+      .project-card:hover .project-meta p {
+        transform: translateY(-1px);
+        opacity: 1;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 32px;
+        align-items: center;
+      }
+
+      .signature img {
+        width: 100%;
+        max-width: 260px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--card);
+      }
+
+      th, td {
+        padding: 14px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+      }
+
+      .page-hero {
+        padding: 70px 0 40px;
+      }
+
+      .filters {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      select {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #fff;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+      }
+
+      .gallery-item {
+        height: 200px;
+        border-radius: 14px;
+        background-size: cover;
+        background-position: center;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 18px 34px rgba(18, 52, 89, 0.2);
+      }
+
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 24px;
+      }
+
+      .team-card {
+        background: linear-gradient(175deg, rgba(255, 255, 255, 0.97), rgba(230, 241, 255, 0.9));
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 34px rgba(18, 52, 89, 0.2);
+      }
+
+      .team-photo {
+        height: 240px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .team-body {
+        padding: 18px;
+      }
+
+      .form {
+        display: grid;
+        gap: 16px;
+      }
+
+      .input, .textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        font-family: inherit;
+      }
+
+      .textarea {
+        min-height: 140px;
+      }
+
+      .site-footer {
+        background:
+          radial-gradient(circle at 10% 10%, rgba(79, 157, 181, 0.24), transparent 40%),
+          radial-gradient(circle at 90% 90%, rgba(31, 111, 139, 0.25), transparent 46%),
+          #0f1824;
+        color: #f4f8fc;
+        padding: 58px 0 22px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 28px;
+      }
+
+      .footer-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-family: "Playfair Display", serif;
+        letter-spacing: 0.25px;
+      }
+
+      .footer-bottom {
+        margin-top: 28px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        color: rgba(244, 241, 236, 0.72);
+        font-size: 13px;
+      }
+
+      .list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 9px;
+      }
+
+      .site-footer a {
+        color: rgba(244, 241, 236, 0.9);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .site-footer a:hover {
+        color: #8ed5ec;
+      }
+
+      .site-footer .muted {
+        color: rgba(244, 241, 236, 0.72);
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      @media (max-width: 760px) {
+        .nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav-links {
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: thin;
+          justify-content: flex-start;
+        }
+
+        .nav-links a {
+          white-space: nowrap;
+        }
+
+        .project-card:hover {
+          transform: translateY(-5px) scale(1.005);
+        }
+
+        .project-card:hover .project-thumb {
+          transform: scale(1.06);
+        }
+
+        .split {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .project-card,
+        .project-thumb,
+        .project-meta,
+        .project-meta h3,
+        .project-meta p,
+        .project-thumb::before,
+        .project-thumb::after {
+          transition: none;
+        }
+
+        .project-card:hover,
+        .project-card:hover .project-thumb,
+        .project-card:hover .project-meta,
+        .project-card:hover .project-meta h3,
+        .project-card:hover .project-meta p {
+          transform: none;
+        }
+
+        .project-card:hover .project-thumb::after {
+          left: -170%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">
+            <img src="images/Tri-EcoTeq Architects Logo.png" alt="Tri-EcoTeq Architects logo" />
+          </span>
+          <span class="brand-text">Tri-EcoTeq Architects</span>
+        </a>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="services.html">Services</a>
+          <a class="active" href="portfolio.html">Portfolio</a>
+          <a class="cta" href="contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="projects" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Portfolio</h2>
+            <p class="muted">A curated collection of some of our recently completed architectural and interior design work.</p>
+          </div>
+          <div class="filters">
+            <select id="categoryFilter">
+              <option value="all">All Categories</option>
+              <option value="Residential">Residential</option>
+              <option value="Interior">Interior</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Institutional">Institutional</option>
+              <option value="Hospitality">Hospitality</option>
+              <option value="Mixed-use">Mixed-use</option>
+              <option value="Civic">Civic</option>
+            </select>
+            <select id="yearFilter">
+              <option value="all">All Years</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+            </select>
+          </div>
+          <div class="grid-3" id="projectsGrid">
+            <div class="project-card" data-category="Residential" data-year="2024">
+              <div class="project-thumb" style="background-image: url('PROJ PORTFOLIO/IMG-20240131-WA0009.jpg');"></div>
+              <div class="project-meta">
+                <h3>Portfolio Series 2024-01</h3>
+                <p class="muted">Nairobi, Kenya Â· 2024</p>
+              </div>
+            </div>
+            <div class="project-card" data-category="Interior" data-year="2024">
+              <div class="project-thumb" style="background-image: url('PROJ PORTFOLIO/IMG_20240411_174334.jpg');"></div>
+              <div class="project-meta">
+                <h3>Portfolio Series 2024-04</h3>
+                <p class="muted">Nairobi, Kenya Â· 2024</p>
+              </div>
+            </div>
+            <div class="project-card" data-category="Residential" data-year="2024">
+              <div class="project-thumb" style="background-image: url('PROJ PORTFOLIO/IMG-20240806-WA0004.jpg');"></div>
+              <div class="project-meta">
+                <h3>Portfolio Series 2024-08</h3>
+                <p class="muted">Nairobi, Kenya Â· 2024</p>
+              </div>
+            </div>
+            <div class="project-card" data-category="Commercial" data-year="2025">
+              <div class="project-thumb" style="background-image: url('PROJ PORTFOLIO/IMG-20250430-WA0004.jpg');"></div>
+              <div class="project-meta">
+                <h3>Portfolio Series 2025-04</h3>
+                <p class="muted">Nairobi, Kenya Â· 2025</p>
+              </div>
+            </div>
+            <div class="project-card" data-category="Institutional" data-year="2025">
+              <div class="project-thumb" style="background-image: url('PROJ PORTFOLIO/IMG-20250517-WA0003.jpg');"></div>
+              <div class="project-meta">
+                <h3>Portfolio Series 2025-05</h3>
+                <p class="muted">Nairobi, Kenya Â· 2025</p>
+              </div>
+            </div>
+            <div class="project-card" data-category="Hospitality" data-year="2025">
+              <div class="project-thumb" style="background-image: url('PROJ PORTFOLIO/IMG-20250620-WA0007.jpg');"></div>
+              <div class="project-meta">
+                <h3>Portfolio Series 2025-06</h3>
+                <p class="muted">Nairobi, Kenya Â· 2025</p>
+              </div>
+            </div>
+            <div class="project-card" data-category="Mixed-use" data-year="2025">
+              <div class="project-thumb" style="background-image: url('PROJ PORTFOLIO/IMG-20250811-WA0001.jpg');"></div>
+              <div class="project-meta">
+                <h3>Portfolio Series 2025-08</h3>
+                <p class="muted">Nairobi, Kenya Â· 2025</p>
+              </div>
+            </div>
+            <div class="project-card" data-category="Civic" data-year="2025">
+              <div class="project-thumb" style="background-image: url('PROJ PORTFOLIO/IMG-20251031-WA0000.jpg');"></div>
+              <div class="project-meta">
+                <h3>Portfolio Series 2025-10</h3>
+                <p class="muted">Nairobi, Kenya Â· 2025</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <div class="footer-title">Tri-EcoTeq Architects</div>
+          <p class="muted">A Nairobi-based architectural studio crafting functional, economical, and aesthetically refined spaces.</p>
+        </div>
+        <div>
+          <div class="footer-title">Studio</div>
+          <ul class="list">
+            <li>WoodVale Avenue, Westlands</li>
+            <li>P.O. Box 45854-00100</li>
+            <li>Nairobi, Kenya</li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">Connect</div>
+          <ul class="list">
+            <li><a href="tel:+254728240363">+254728240363</a></li>
+            <li><a href="mailto:triecoteq@gmail.com">triecoteq@gmail.com</a></li>
+            <li><a href="contact.html">Start a project</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container footer-bottom">Copyright © 2026 Tri-EcoTeq Architects. All rights reserved.</div>
+    </footer>
+
+    <script>
+      const categoryFilter = document.getElementById("categoryFilter");
+      const yearFilter = document.getElementById("yearFilter");
+      const projectCards = document.querySelectorAll("#projectsGrid .project-card");
+
+      function applyFilters() {
+        if (!projectCards.length) return;
+        const cat = categoryFilter ? categoryFilter.value : "all";
+        const year = yearFilter ? yearFilter.value : "all";
+
+        projectCards.forEach(card => {
+          const matchesCat = cat === "all" || card.dataset.category === cat;
+          const matchesYear = year === "all" || card.dataset.year === year;
+          card.style.display = matchesCat && matchesYear ? "flex" : "none";
+        });
+      }
+
+      if (categoryFilter && yearFilter) {
+        categoryFilter.addEventListener("change", applyFilters);
+        yearFilter.addEventListener("change", applyFilters);
+      }
+
+      
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
