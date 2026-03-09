@@ -738,7 +738,7 @@
                 </label>
                 <label class="field">
                   <span class="field-label">Message</span>
-                  <textarea class="textarea" placeholder="Tell us about your project"></textarea>
+                  <textarea class="textarea" id="contactMessage" placeholder="Tell us about your project"></textarea>
                 </label>
                 <label class="field captcha-field">
                   <span class="field-label">Captcha</span>
@@ -843,11 +843,40 @@
       }
 
       const contactForm = document.getElementById("contactForm");
+      const contactMessageEl = document.getElementById("contactMessage");
       const captchaQuestionEl = document.getElementById("captchaQuestion");
       const captchaInputEl = document.getElementById("captchaInput");
       const captchaRefreshBtn = document.getElementById("captchaRefreshBtn");
       const captchaFeedbackEl = document.getElementById("captchaFeedback");
       let captchaAnswer = null;
+
+      function prefillFromCheckout() {
+        if (!contactMessageEl) return;
+        if (contactMessageEl.value.trim()) return;
+
+        const params = new URLSearchParams(window.location.search);
+        const order = params.get("order");
+        const total = params.get("total");
+        const payment = params.get("payment");
+        const plan = params.get("plan");
+
+        const lines = [];
+        if (order) {
+          lines.push("Checkout order: " + order);
+        } else if (plan) {
+          lines.push("Selected plan: " + plan);
+        }
+        if (total) {
+          lines.push("Estimated total: $" + total);
+        }
+        if (payment) {
+          lines.push("Preferred payment: " + payment);
+        }
+
+        if (!lines.length) return;
+        lines.push("Additional notes:");
+        contactMessageEl.value = lines.join("\n");
+      }
 
       function generateCaptcha() {
         const a = Math.floor(Math.random() * 8) + 2;
@@ -906,6 +935,7 @@
 
       window.addEventListener("resize", syncContactCardHeights);
       syncContactCardHeights();
+      prefillFromCheckout();
 
     </script>
   </body>

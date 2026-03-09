@@ -418,6 +418,105 @@
         font-size: 0.95rem;
         font-weight: 600;
       }
+
+      .cart-wrap {
+        margin: 0 0 28px;
+      }
+
+      .cart-panel {
+        background: linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(228, 240, 254, 0.9));
+        border: 1px solid var(--card-outline);
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .cart-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: baseline;
+      }
+
+      .cart-head h2 {
+        margin: 0;
+      }
+
+      .cart-count {
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+
+      .cart-list {
+        list-style: none;
+        margin: 14px 0;
+        padding: 0;
+        display: grid;
+        gap: 8px;
+      }
+
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(21, 34, 56, 0.1);
+      }
+
+      .cart-total {
+        margin: 0;
+        font-weight: 700;
+      }
+
+      .checkout-options {
+        margin: 14px 0 12px;
+        padding: 12px;
+        border: 1px solid rgba(21, 34, 56, 0.12);
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 12px;
+      }
+
+      .checkout-title {
+        margin: 0 0 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .payment-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 8px;
+      }
+
+      .payment-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border: 1px solid rgba(21, 34, 56, 0.12);
+        border-radius: 10px;
+        background: #fff;
+        font-size: 0.92rem;
+      }
+
+      .checkout-hint {
+        margin: 10px 0 0;
+        font-size: 0.88rem;
+      }
+
+      .cart-actions {
+        margin-top: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .button.is-disabled {
+        opacity: 0.55;
+        pointer-events: none;
+      }
       .project-card {
         display: flex;
         flex-direction: column;
@@ -679,9 +778,20 @@
                 <li class="muted">No plans added yet.</li>
               </ul>
               <p class="cart-total" id="cartTotal">Total: $0</p>
+              <div class="checkout-options" id="checkoutOptions" hidden>
+                <p class="checkout-title">Checkout Method</p>
+                <div class="payment-grid" role="radiogroup" aria-label="Checkout method">
+                  <label class="payment-option"><input type="radio" name="paymentMethod" value="Card" checked /> Card</label>
+                  <label class="payment-option"><input type="radio" name="paymentMethod" value="PayPal" /> PayPal</label>
+                  <label class="payment-option"><input type="radio" name="paymentMethod" value="Bitcoin" /> Bitcoin</label>
+                  <label class="payment-option"><input type="radio" name="paymentMethod" value="USDT" /> USDT</label>
+                  <label class="payment-option"><input type="radio" name="paymentMethod" value="USDC" /> USDC</label>
+                </div>
+                <p class="checkout-hint muted" id="checkoutHint">Selected: Card</p>
+              </div>
               <div class="cart-actions">
                 <button class="button ghost" type="button" id="clearCartBtn">Clear Cart</button>
-                <a class="button" href="contact.html" id="checkoutBtn">Proceed to Contact</a>
+                <a class="button is-disabled" href="#" id="checkoutBtn" aria-disabled="true">Checkout</a>
               </div>
             </div>
           </div>
@@ -887,6 +997,9 @@
   const offerStatusEl = document.getElementById("offerStatus");
   const checkoutBtn = document.getElementById("checkoutBtn");
   const clearCartBtn = document.getElementById("clearCartBtn");
+  const checkoutOptionsEl = document.getElementById("checkoutOptions");
+  const checkoutHintEl = document.getElementById("checkoutHint");
+  const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
 
   const toast = document.createElement("div");
   toast.className = "cart-toast";
@@ -900,6 +1013,18 @@
 
   function formatUsd(value) {
     return "$" + value.toLocaleString("en-US");
+  }
+
+  function getSelectedPaymentMethod() {
+    const selected = document.querySelector('input[name="paymentMethod"]:checked');
+    return selected ? selected.value : "Card";
+  }
+
+  function updateCheckoutMethodUi() {
+    const method = getSelectedPaymentMethod();
+    if (checkoutHintEl) {
+      checkoutHintEl.textContent = "Selected: " + method;
+    }
   }
 
   function initPlanImageSliders() {
@@ -969,33 +1094,55 @@
   function updateCartUi() {
     const totalItems = Array.from(cart.values()).reduce((sum, item) => sum + item.qty, 0);
     const total = Array.from(cart.values()).reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const paymentMethod = getSelectedPaymentMethod();
 
-    cartCountEl.textContent = totalItems + " item" + (totalItems === 1 ? "" : "s");
-    cartTotalEl.textContent = "Total: " + formatUsd(total);
-
-    if (offerUnlocked()) {
-      offerStatusEl.innerHTML = "Offer unlocked: <b>" + offerPlanId + "</b> is now available at $0.";
-    } else {
-      const remaining = 3 - paidPlanCount();
-      offerStatusEl.innerHTML = "Add " + remaining + " more paid plan" + (remaining === 1 ? "" : "s") + " to unlock <b>" + offerPlanId + "</b>.";
+    if (cartCountEl) {
+      cartCountEl.textContent = totalItems + " item" + (totalItems === 1 ? "" : "s");
+    }
+    if (cartTotalEl) {
+      cartTotalEl.textContent = "Total: " + formatUsd(total);
     }
 
-    cartListEl.innerHTML = "";
-    if (!cart.size) {
-      cartListEl.innerHTML = '<li class="muted">No plans added yet.</li>';
-    } else {
-      cart.forEach((item, key) => {
-        const li = document.createElement("li");
-        li.className = "cart-item";
-        li.innerHTML = "<span>" + key + " x" + item.qty + "</span><span>" + formatUsd(item.price * item.qty) + "</span>";
-        cartListEl.appendChild(li);
-      });
+    if (offerStatusEl) {
+      if (offerUnlocked()) {
+        offerStatusEl.innerHTML = "Offer unlocked: <b>" + offerPlanId + "</b> is now available at $0.";
+      } else {
+        const remaining = 3 - paidPlanCount();
+        offerStatusEl.innerHTML = "Add " + remaining + " more paid plan" + (remaining === 1 ? "" : "s") + " to unlock <b>" + offerPlanId + "</b>.";
+      }
+    }
+
+    if (cartListEl) {
+      cartListEl.innerHTML = "";
+      if (!cart.size) {
+        cartListEl.innerHTML = '<li class="muted">No plans added yet.</li>';
+      } else {
+        cart.forEach((item, key) => {
+          const li = document.createElement("li");
+          li.className = "cart-item";
+          li.innerHTML = "<span>" + key + " x" + item.qty + "</span><span>" + formatUsd(item.price * item.qty) + "</span>";
+          cartListEl.appendChild(li);
+        });
+      }
     }
 
     const queryItems = [];
     cart.forEach((item, key) => queryItems.push(key + " x" + item.qty));
     const order = encodeURIComponent(queryItems.join(", "));
-    checkoutBtn.href = "contact.html?order=" + order + "&total=" + encodeURIComponent(total);
+    if (checkoutBtn) {
+      if (totalItems > 0) {
+        checkoutBtn.classList.remove("is-disabled");
+        checkoutBtn.setAttribute("aria-disabled", "false");
+        checkoutBtn.href = "contact.html?order=" + order + "&total=" + encodeURIComponent(total) + "&payment=" + encodeURIComponent(paymentMethod);
+      } else {
+        checkoutBtn.classList.add("is-disabled");
+        checkoutBtn.setAttribute("aria-disabled", "true");
+        checkoutBtn.href = "#";
+      }
+    }
+    if (checkoutOptionsEl) {
+      checkoutOptionsEl.hidden = totalItems === 0;
+    }
   }
 
   function addToCart(planId) {
@@ -1022,7 +1169,7 @@
     const cards = document.querySelectorAll(".buy-plan-card .buy-plan-meta");
     cards.forEach((meta) => {
       const title = meta.querySelector("h3");
-      const action = meta.querySelector("a.button.ghost");
+      const action = meta.querySelector(".button.ghost");
       if (!title || !action) return;
       const planId = title.textContent.trim();
       const priceConfig = planPricing[planId];
@@ -1033,24 +1180,49 @@
       const oldPrice = priceConfig.old ? '<span class="price-old">Was ' + formatUsd(priceConfig.old) + '</span>' : '';
       priceRow.innerHTML = '<span class="price-current">' + formatUsd(priceConfig.current) + '</span>' + oldPrice;
 
-      action.removeAttribute("href");
+      if (action.tagName.toLowerCase() === "a") {
+        action.setAttribute("href", "#");
+      }
       action.setAttribute("role", "button");
       action.setAttribute("data-plan-id", planId);
       action.textContent = planId === offerPlanId ? "Unlock at 3 Plans" : "Add to Cart";
-      action.addEventListener("click", () => addToCart(planId));
+      action.addEventListener("click", (event) => {
+        event.preventDefault();
+        addToCart(planId);
+      });
 
       meta.insertBefore(priceRow, action);
     });
   }
 
-  clearCartBtn.addEventListener("click", () => {
-    cart.clear();
-    updateOfferButtonState();
-    updateCartUi();
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener("click", () => {
+      cart.clear();
+      updateOfferButtonState();
+      updateCartUi();
+    });
+  }
+
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", (event) => {
+      const totalItems = Array.from(cart.values()).reduce((sum, item) => sum + item.qty, 0);
+      if (totalItems < 1) {
+        event.preventDefault();
+        showToast("Add at least one plan to continue to checkout");
+      }
+    });
+  }
+
+  paymentMethodInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      updateCheckoutMethodUi();
+      updateCartUi();
+    });
   });
 
   initPlanImageSliders();
   enhancePlanCards();
+  updateCheckoutMethodUi();
   updateOfferButtonState();
   updateCartUi();
 </script>
