@@ -430,98 +430,68 @@
         font-weight: 600;
       }
 
-      .cart-wrap {
+      .basket-wrap {
+        display: flex;
+        justify-content: flex-end;
         margin: 0 0 28px;
+        position: sticky;
+        top: 88px;
+        z-index: 10;
       }
 
-      .cart-panel {
-        background: linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(228, 240, 254, 0.9));
-        border: 1px solid var(--card-outline);
-        border-radius: 18px;
-        padding: 20px;
-        box-shadow: var(--shadow);
+      .basket-shell {
+        width: auto;
+        position: relative;
       }
 
-      .cart-head {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        align-items: baseline;
-      }
-
-      .cart-head h2 {
-        margin: 0;
-      }
-
-      .cart-count {
-        font-size: 0.92rem;
-        color: var(--muted);
-      }
-
-      .cart-list {
-        list-style: none;
-        margin: 14px 0;
-        padding: 0;
-        display: grid;
-        gap: 8px;
-      }
-
-      .cart-item {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.72);
+      .basket-toggle {
+        width: 72px;
+        height: 72px;
         border: 1px solid rgba(21, 34, 56, 0.1);
-      }
-
-      .cart-total {
-        margin: 0;
-        font-weight: 700;
-      }
-
-      .checkout-options {
-        margin: 14px 0 12px;
-        padding: 12px;
-        border: 1px solid rgba(21, 34, 56, 0.12);
-        background: rgba(255, 255, 255, 0.7);
-        border-radius: 12px;
-      }
-
-      .checkout-title {
-        margin: 0 0 10px;
-        font-size: 0.95rem;
-        font-weight: 600;
-      }
-
-      .payment-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-        gap: 8px;
-      }
-
-      .payment-option {
-        display: flex;
+        border-radius: 22px;
+        background: linear-gradient(180deg, #ffffff 0%, #f6f9fc 100%);
+        box-shadow: 0 18px 40px rgba(18, 43, 70, 0.12);
+        display: inline-flex;
         align-items: center;
-        gap: 8px;
-        padding: 8px 10px;
-        border: 1px solid rgba(21, 34, 56, 0.12);
-        border-radius: 10px;
-        background: #fff;
-        font-size: 0.92rem;
+        justify-content: center;
+        position: relative;
       }
 
-      .checkout-hint {
-        margin: 10px 0 0;
-        font-size: 0.88rem;
+      .basket-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #ffedd8 0%, #ffd39d 100%);
+        color: #c96a00;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        flex: 0 0 auto;
       }
 
-      .cart-actions {
-        margin-top: 14px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+      .basket-icon svg {
+        width: 24px;
+        height: 24px;
+        display: block;
+      }
+
+      .basket-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        height: 28px;
+        padding: 0 8px;
+        border-radius: 999px;
+        background: #f68b1e;
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 700;
+        box-shadow: 0 8px 18px rgba(246, 139, 30, 0.28);
+        position: absolute;
+        top: -6px;
+        right: -6px;
       }
 
       .button.is-disabled {
@@ -752,27 +722,15 @@
         text-decoration-color: rgba(156, 177, 197, 0.85);
       }
 
-      body[data-theme="dark"] .checkout-options {
-        background: rgba(20, 32, 47, 0.94);
-        border-color: rgba(210, 227, 244, 0.12);
+      body[data-theme="dark"] .basket-toggle {
+        background: linear-gradient(170deg, rgba(22, 35, 50, 0.98), rgba(16, 27, 39, 0.96));
         color: var(--text);
+        border-color: var(--card-outline);
       }
 
-      body[data-theme="dark"] .checkout-title,
-      body[data-theme="dark"] .cart-head h2,
-      body[data-theme="dark"] .cart-total,
-      body[data-theme="dark"] .cart-item span {
-        color: var(--text);
-      }
-
-      body[data-theme="dark"] .payment-option {
-        background: rgba(15, 23, 34, 0.88);
-        border-color: rgba(210, 227, 244, 0.12);
-        color: var(--text);
-      }
-
-      body[data-theme="dark"] .payment-option input {
-        accent-color: #8ed5ec;
+      body[data-theme="dark"] .basket-icon {
+        background: linear-gradient(180deg, rgba(246, 139, 30, 0.2), rgba(246, 139, 30, 0.36));
+        color: #ffd7a5;
       }
 
       body[data-theme="dark"] .offer-badge {
@@ -804,6 +762,10 @@
 
         .split {
           grid-template-columns: 1fr;
+        }
+
+        .basket-wrap {
+          top: 76px;
         }
       }
     </style>
@@ -853,32 +815,18 @@
             <p class="muted">Purchase pre-completed designs with ready working drawings and structural plans. Click <b>Add to Cart</b> to build your order.</p>
           </header>
 
-          <div class="cart-wrap">
-            <div class="cart-panel">
-              <div class="cart-head">
-                <h2>Your Cart</h2>
-                <div class="cart-count" id="cartCount">0 items</div>
-              </div>
-              <p class="muted" id="offerStatus">Add 3 or more paid plans to unlock offer plan <b>Proj-2022-0091</b>.</p>
-              <ul class="cart-list" id="cartList">
-                <li class="muted">No plans added yet.</li>
-              </ul>
-              <p class="cart-total" id="cartTotal">Total: $0</p>
-              <div class="checkout-options" id="checkoutOptions" hidden>
-                <p class="checkout-title">Checkout Method</p>
-                <div class="payment-grid" role="radiogroup" aria-label="Checkout method">
-                  <label class="payment-option"><input type="radio" name="paymentMethod" value="Card" checked /> Card</label>
-                  <label class="payment-option"><input type="radio" name="paymentMethod" value="PayPal" /> PayPal</label>
-                  <label class="payment-option"><input type="radio" name="paymentMethod" value="Bitcoin" /> Bitcoin</label>
-                  <label class="payment-option"><input type="radio" name="paymentMethod" value="USDT" /> USDT</label>
-                  <label class="payment-option"><input type="radio" name="paymentMethod" value="USDC" /> USDC</label>
-                </div>
-                <p class="checkout-hint muted" id="checkoutHint">Selected: Card</p>
-              </div>
-              <div class="cart-actions">
-                <button class="button ghost" type="button" id="clearCartBtn">Clear Cart</button>
-                <a class="button is-disabled" href="#" id="checkoutBtn" aria-disabled="true">Checkout</a>
-              </div>
+          <div class="basket-wrap">
+            <div class="basket-shell">
+              <a class="basket-toggle" href="checkout.html" id="checkoutBtn" aria-label="Open checkout basket">
+                <span class="basket-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="20" r="1.6"></circle>
+                    <circle cx="18" cy="20" r="1.6"></circle>
+                    <path d="M3 4h2.3l1.8 9.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.7L21 7H7.1"></path>
+                  </svg>
+                </span>
+                <span class="basket-pill" id="basketCountBadge">0</span>
+              </a>
             </div>
           </div>
           <div class="buy-plan-grid" id="buyPlansGrid">
@@ -1062,16 +1010,10 @@
     <script src="assets/theme-toggle.js"></script>
     <script>
   const store = window.TEQContentStore;
+  const CART_STORAGE_KEY = "teq-buy-plan-cart-v1";
   const cart = new Map();
-  const cartCountEl = document.getElementById("cartCount");
-  const cartListEl = document.getElementById("cartList");
-  const cartTotalEl = document.getElementById("cartTotal");
-  const offerStatusEl = document.getElementById("offerStatus");
+  const basketCountBadgeEl = document.getElementById("basketCountBadge");
   const checkoutBtn = document.getElementById("checkoutBtn");
-  const clearCartBtn = document.getElementById("clearCartBtn");
-  const checkoutOptionsEl = document.getElementById("checkoutOptions");
-  const checkoutHintEl = document.getElementById("checkoutHint");
-  const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
   const buyPlansGrid = document.getElementById("buyPlansGrid");
 
   const toast = document.createElement("div");
@@ -1109,15 +1051,27 @@
     return "$" + Number(value || 0).toLocaleString("en-US");
   }
 
-  function getSelectedPaymentMethod() {
-    const selected = document.querySelector('input[name="paymentMethod"]:checked');
-    return selected ? selected.value : "Card";
+  function saveCart() {
+    const payload = [];
+    cart.forEach((item, key) => {
+      payload.push({ id: key, qty: item.qty, price: item.price });
+    });
+    window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(payload));
   }
 
-  function updateCheckoutMethodUi() {
-    const method = getSelectedPaymentMethod();
-    if (checkoutHintEl) {
-      checkoutHintEl.textContent = "Selected: " + method;
+  function loadCart() {
+    try {
+      const raw = JSON.parse(window.localStorage.getItem(CART_STORAGE_KEY) || "[]");
+      raw.forEach((item) => {
+        if (item && item.id) {
+          cart.set(item.id, {
+            qty: Number(item.qty) || 1,
+            price: Number(item.price) || 0
+          });
+        }
+      });
+    } catch (error) {
+      window.localStorage.removeItem(CART_STORAGE_KEY);
     }
   }
 
@@ -1289,71 +1243,16 @@
   }
 
   function updateCartUi() {
-    const planPricing = getPlanPricing();
-    const offerPlanId = getOfferPlanId();
     const totalItems = Array.from(cart.values()).reduce((sum, item) => sum + item.qty, 0);
-    const total = Array.from(cart.values()).reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const paymentMethod = getSelectedPaymentMethod();
-
-    if (cartCountEl) {
-      cartCountEl.textContent = totalItems + " item" + (totalItems === 1 ? "" : "s");
+    if (basketCountBadgeEl) {
+      basketCountBadgeEl.textContent = String(totalItems);
     }
-    if (cartTotalEl) {
-      cartTotalEl.textContent = "Total: " + formatUsd(total);
-    }
-
-    if (offerStatusEl) {
-      if (!offerPlanId) {
-        offerStatusEl.textContent = "";
-      } else if (offerUnlocked()) {
-        offerStatusEl.innerHTML = "Offer unlocked: <b>" + offerPlanId + "</b> is now available at " + formatUsd(planPricing[offerPlanId].current) + ".";
-      } else {
-        const remaining = 3 - paidPlanCount();
-        offerStatusEl.innerHTML = "Add " + remaining + " more paid plan" + (remaining === 1 ? "" : "s") + " to unlock <b>" + offerPlanId + "</b>.";
-      }
-    }
-
-    if (cartListEl) {
-      cartListEl.innerHTML = "";
-      if (!cart.size) {
-        cartListEl.innerHTML = '<li class="muted">No plans added yet.</li>';
-      } else {
-        cart.forEach((item, key) => {
-          const li = document.createElement("li");
-          li.className = "cart-item";
-
-          const label = document.createElement("span");
-          label.textContent = key + " x" + item.qty;
-
-          const amount = document.createElement("span");
-          amount.textContent = formatUsd(item.price * item.qty);
-
-          li.appendChild(label);
-          li.appendChild(amount);
-          cartListEl.appendChild(li);
-        });
-      }
-    }
-
-    const queryItems = [];
-    cart.forEach((item, key) => queryItems.push(key + " x" + item.qty));
-    const order = encodeURIComponent(queryItems.join(", "));
 
     if (checkoutBtn) {
-      if (totalItems > 0) {
-        checkoutBtn.classList.remove("is-disabled");
-        checkoutBtn.setAttribute("aria-disabled", "false");
-        checkoutBtn.href = "contact.html?order=" + order + "&total=" + encodeURIComponent(total) + "&payment=" + encodeURIComponent(paymentMethod);
-      } else {
-        checkoutBtn.classList.add("is-disabled");
-        checkoutBtn.setAttribute("aria-disabled", "true");
-        checkoutBtn.href = "#";
-      }
+      checkoutBtn.setAttribute("aria-label", totalItems > 0 ? "Open checkout basket with " + totalItems + " item" + (totalItems === 1 ? "" : "s") : "Open checkout basket");
     }
 
-    if (checkoutOptionsEl) {
-      checkoutOptionsEl.hidden = totalItems === 0;
-    }
+    saveCart();
   }
 
   function addToCart(planId) {
@@ -1379,14 +1278,6 @@
     updateCartUi();
   }
 
-  if (clearCartBtn) {
-    clearCartBtn.addEventListener("click", function () {
-      cart.clear();
-      updateOfferButtonState();
-      updateCartUi();
-    });
-  }
-
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", function (event) {
       const totalItems = Array.from(cart.values()).reduce((sum, item) => sum + item.qty, 0);
@@ -1397,15 +1288,8 @@
     });
   }
 
-  paymentMethodInputs.forEach((input) => {
-    input.addEventListener("change", function () {
-      updateCheckoutMethodUi();
-      updateCartUi();
-    });
-  });
-
+  loadCart();
   renderPlanCards();
-  updateCheckoutMethodUi();
   updateOfferButtonState();
   updateCartUi();
   window.addEventListener("teq-content-store:change", function () {
