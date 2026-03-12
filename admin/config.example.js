@@ -5,7 +5,9 @@
     API_URL: "https://tri-ecoteq-api.vercel.app/api",
     ADMIN_EMAIL: "admin@tri-ecoteq.com",
     STORAGE_URL: "https://cdn.tri-ecoteq.com",
-    AUTH_TOKEN_KEY: "tri_ecoteq_admin_token"
+    AUTH_TOKEN_KEY: "tri_ecoteq_admin_token",
+    ALLOWED_ADMINS: ["josejacques98@gmail.com", "ibrahibkiko26@gmail.com"],
+    LOGIN_PASSWORD: "Teq@2026"
   };
 
   const storedToken = localStorage.getItem(CONFIG.AUTH_TOKEN_KEY) || "";
@@ -24,6 +26,8 @@
   window.ADMIN_META = {
     adminEmail: CONFIG.ADMIN_EMAIL,
     storageUrl: CONFIG.STORAGE_URL,
-    tokenKey: CONFIG.AUTH_TOKEN_KEY
+    tokenKey: CONFIG.AUTH_TOKEN_KEY,
+    allowedAdmins: CONFIG.ALLOWED_ADMINS,
+    loginPassword: CONFIG.LOGIN_PASSWORD
   };
 })();

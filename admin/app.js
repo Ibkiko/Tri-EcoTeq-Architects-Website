@@ -10,6 +10,11 @@
   const logoutBtn = document.querySelector("[data-logout]");
   const tokenKey = (window.ADMIN_META && window.ADMIN_META.tokenKey) || "tri_ecoteq_admin_token";
   const adminEmail = (window.ADMIN_META && window.ADMIN_META.adminEmail) || "";
+  const allowedAdmins =
+    (window.ADMIN_META && window.ADMIN_META.allowedAdmins && window.ADMIN_META.allowedAdmins.map((e) => e.toLowerCase())) ||
+    [];
+  const loginPassword = (window.ADMIN_META && window.ADMIN_META.loginPassword) || "";
+  const SESSION_KEY = "admin_logged_in_v1";
 
   let editId = null;
   let demoMode = false;
@@ -95,6 +100,34 @@
 
   function hasAuthToken() {
     return Boolean(localStorage.getItem(tokenKey) || window.ADMIN_CONFIG.authToken);
+  }
+
+  function isAllowedEmail(email) {
+    const normalized = (email || "").toLowerCase();
+    if (allowedAdmins.length > 0) {
+      return allowedAdmins.includes(normalized);
+    }
+    if (adminEmail) {
+      return normalized === adminEmail.toLowerCase();
+    }
+    return Boolean(normalized);
+  }
+
+  function isValidPassword(password) {
+    if (!loginPassword) return Boolean(password);
+    return password === loginPassword;
+  }
+
+  function setSessionLoggedIn() {
+    localStorage.setItem(SESSION_KEY, "1");
+  }
+
+  function clearSession() {
+    localStorage.removeItem(SESSION_KEY);
+  }
+
+  function isSessionLoggedIn() {
+    return localStorage.getItem(SESSION_KEY) === "1";
   }
 
   function showLogin() {
@@ -234,13 +267,13 @@
       setStatus("Demo mode: data stored locally. Add admin/config.js to connect to real API.", "error");
     }
 
-    if (!hasAuthToken()) {
-      showLogin();
-      setStatus("Login required");
-    } else {
+    if (isSessionLoggedIn()) {
       showDashboard();
       clearForm();
       loadProjects();
+    } else {
+      showLogin();
+      setStatus("Login required");
     }
 
     if (loginForm) {
@@ -250,15 +283,22 @@
         const email = formData.get("email").trim();
         const token = formData.get("token").trim();
 
-        if (adminEmail && email.toLowerCase() !== adminEmail.toLowerCase()) {
+        if (!isAllowedEmail(email)) {
           setStatus("Email not allowed", "error");
           return;
         }
-        if (!token) {
-          setStatus("Enter token/password", "error");
+
+        if (!isValidPassword(token)) {
+          setStatus("Wrong password", "error");
           return;
         }
-        setAuthToken(token);
+
+        // Keep existing API token if set; otherwise, password can act as token for simple backends.
+        if (!hasAuthToken()) {
+          setAuthToken(token);
+        }
+
+        setSessionLoggedIn();
         setStatus("Signed in");
         showDashboard();
         clearForm();
@@ -271,6 +311,7 @@
         localStorage.removeItem(tokenKey);
         window.ADMIN_CONFIG.authToken = "";
         demoMode = false;
+        clearSession();
         setStatus("Logged out");
         showLogin();
         disableForm();
