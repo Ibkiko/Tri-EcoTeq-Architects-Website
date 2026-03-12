@@ -187,9 +187,15 @@
     const adminIndex = pathname.indexOf("/admin/");
     const basePath =
       adminIndex >= 0
-        ? pathname.slice(0, adminIndex + 1) // keep trailing slash
+        ? pathname.slice(0, adminIndex + 1)
         : pathname.endsWith("/") ? pathname : pathname.replace(/[^/]+$/, "");
-    return window.location.origin + basePath + normalized;
+    // Try admin prefix, then root fallback.
+    const attempts = [
+      window.location.origin + basePath + normalized,
+      window.location.origin + "/" + normalized,
+      window.location.origin + "/admin/" + normalized
+    ];
+    return attempts[0];
   }
 
   window.AdminProjects = { init };

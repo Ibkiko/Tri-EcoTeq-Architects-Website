@@ -30,14 +30,23 @@
   }
 
   async function fetchPortfolioJson() {
-    try {
-      const res = await fetch(withBase("content/portfolio.json"), { cache: "no-store" });
-      if (!res.ok) throw new Error("Content fetch failed");
-      const json = await res.json();
-      return Array.isArray(json) ? json : json.portfolioProjects || [];
-    } catch (err) {
-      return [];
+    const candidates = [
+      withBase("content/portfolio.json"),
+      "/content/portfolio.json",
+      "/admin/content/portfolio.json"
+    ];
+    for (const url of candidates) {
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) continue;
+        const json = await res.json();
+        const arr = Array.isArray(json) ? json : json.portfolioProjects;
+        if (Array.isArray(arr) && arr.length) return arr;
+      } catch (err) {
+        /* try next */
+      }
     }
+    return [];
   }
 
   function readFromStore() {
