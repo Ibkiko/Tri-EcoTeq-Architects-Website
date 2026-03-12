@@ -44,11 +44,12 @@
   }
 
   function projectCard(project) {
+    const imgSrc = resolveMediaPath(project.image);
     const card = document.createElement("article");
     card.className = "project-card";
     card.innerHTML = `
       <div class="project-card-media">
-        ${project.image ? `<img src="${project.image}" alt="${project.title || ""}" />` : `<div class="media-placeholder">No image</div>`}
+        ${imgSrc ? `<img src="${imgSrc}" alt="${project.title || ""}" />` : `<div class="media-placeholder">No image</div>`}
       </div>
       <div class="project-card-body">
         <div class="project-card-head">
@@ -176,6 +177,13 @@
     onStatus = opts.onStatus || (() => {});
     wireEvents();
     loadProjects();
+  }
+
+  function resolveMediaPath(path) {
+    if (!path) return "";
+    if (/^https?:\/\//i.test(path)) return path;
+    const normalized = path.replace(/^\.?\/*/, ""); // strip leading ./ or /
+    return "/" + normalized; // absolute from site root so works in /admin/*
   }
 
   window.AdminProjects = { init };
