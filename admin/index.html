@@ -1,259 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin | Tri-EcoTeq Architects</title>
-    <link rel="stylesheet" href="../assets/page-loader.css" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="page-loader" data-page-loader>
-      <div class="page-loader-shell">
-        <img class="page-loader-logo" src="../assets/brand/Tri-EcoTeq Architects Logo.png" alt="Tri-EcoTeq Architects logo" />
-        <div class="page-loader-cycle" aria-hidden="true"></div>
-      </div>
-    </div>
-    <div class="shell">
-      <section class="login-panel" id="loginView">
-        <div class="login-card">
-          <h1>Admin</h1>
-          <form id="loginForm" class="stack">
-            <input type="email" id="loginUsername" autocomplete="username" placeholder="Email" aria-label="Email" required />
-            <input type="password" id="loginPassword" autocomplete="current-password" placeholder="Password" aria-label="Password" required />
-            <button type="submit" class="primary">Sign In</button>
-          </form>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Projects</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <h1>Projects Admin</h1>
+      <div data-status>Ready.</div>
+    </header>
+
+    <section>
+      <form id="project-form" autocomplete="off">
+        <label>
+          Name
+          <input name="name" type="text" placeholder="New project name" required>
+        </label>
+        <label>
+          Description
+          <textarea name="description" placeholder="Short description" required></textarea>
+        </label>
+        <label>
+          Image URL
+          <input name="imageUrl" type="url" placeholder="https://..." >
+        </label>
+        <label>
+          Status
+          <select name="status">
+            <option value="draft">Draft</option>
+            <option value="published" selected>Published</option>
+            <option value="archived">Archived</option>
+          </select>
+        </label>
+        <div class="actions">
+          <button type="submit" class="primary" data-submit>Create Project</button>
+          <button type="button" class="secondary" data-reset style="display:none;">Cancel edit</button>
         </div>
-      </section>
+      </form>
+    </section>
 
-      <section class="dashboard hidden" id="dashboardView">
-        <header class="topbar">
-          <div>
-            <p class="eyebrow">Tri-EcoTeq Architects</p>
-            <h1>Admin Dashboard</h1>
-          </div>
-          <div class="topbar-actions">
-            <a class="ghost" id="viewPortfolioLink" href="../portfolio.html">View Portfolio</a>
-            <a class="ghost" id="viewBuyPlanLink" href="../buy-plan.html">View Buy Plan</a>
-            <button type="button" class="ghost" id="logoutBtn">Logout</button>
-          </div>
-        </header>
+    <section>
+      <h2>Projects</h2>
+      <ul data-project-list></ul>
+    </section>
 
-        <section class="stats" id="statsPanel"></section>
-
-        <section class="toolbar">
-          <div class="tab-row">
-            <button type="button" class="tab is-active" data-tab-target="portfolioTab">Portfolio</button>
-            <button type="button" class="tab" data-tab-target="plansTab">Buy Plans</button>
-            <button type="button" class="tab" data-tab-target="settingsTab">Settings</button>
-          </div>
-          <div class="toolbar-actions">
-            <button type="button" class="ghost" id="exportBtn">Export Data</button>
-            <label class="ghost upload-label">
-              <input type="file" id="importFile" accept="application/json" hidden />
-              Import Data
-            </label>
-            <button type="button" class="danger" id="resetBtn">Reset Defaults</button>
-          </div>
-        </section>
-
-        <section class="tab-panel is-active" id="portfolioTab">
-          <div class="panel-grid">
-            <article class="panel">
-              <div class="panel-head">
-                <h2>Portfolio Editor</h2>
-                <button type="button" class="ghost small" id="newProjectBtn">New Project</button>
-              </div>
-              <form id="projectForm" class="stack">
-                <input type="hidden" id="projectOriginalId" />
-                <label>
-                  <span>Project ID</span>
-                  <input type="text" id="projectId" placeholder="portfolio-2026-01" required />
-                </label>
-                <label>
-                  <span>Title</span>
-                  <input type="text" id="projectTitle" required />
-                </label>
-                <label>
-                  <span>Category</span>
-                  <input type="text" id="projectCategory" placeholder="Residential" required />
-                </label>
-                <div class="split">
-                  <label>
-                    <span>Year</span>
-                    <input type="text" id="projectYear" placeholder="2026" required />
-                  </label>
-                  <label>
-                    <span>Location</span>
-                    <input type="text" id="projectLocation" placeholder="Nairobi, Kenya" required />
-                  </label>
-                </div>
-                <label>
-                  <span>Description</span>
-                  <textarea id="projectDescription" rows="4" required></textarea>
-                </label>
-                <label>
-                  <span>Price Label</span>
-                  <input type="text" id="projectPriceLabel" placeholder="Optional: From KES 12M" />
-                </label>
-                <label>
-                  <span>Image Path Or Data URL</span>
-                  <input type="text" id="projectImage" placeholder="admin/portfolio-library/example.jpg" />
-                </label>
-                <label>
-                  <span>Upload Image</span>
-                  <input type="file" id="projectImageFile" accept="image/*" />
-                </label>
-                <p class="hint">Portfolio image copies are available in <code>admin/portfolio-library/</code>.</p>
-                <div class="form-actions">
-                  <button type="submit" class="primary">Save Project</button>
-                  <button type="button" class="ghost" id="clearProjectFormBtn">Clear</button>
-                </div>
-              </form>
-            </article>
-
-            <article class="panel">
-              <div class="panel-head">
-                <h2>Portfolio Items</h2>
-                <p class="panel-note">Edits here update the public portfolio page on this browser.</p>
-              </div>
-              <div class="list-panel" id="projectList"></div>
-            </article>
-          </div>
-        </section>
-
-        <section class="tab-panel" id="plansTab">
-          <div class="panel-grid">
-            <article class="panel">
-              <div class="panel-head">
-                <h2>Buy Plan Editor</h2>
-                <button type="button" class="ghost small" id="newPlanBtn">New Plan</button>
-              </div>
-              <form id="planForm" class="stack">
-                <input type="hidden" id="planOriginalId" />
-                <div class="split">
-                  <label>
-                    <span>Plan ID</span>
-                    <input type="text" id="planId" placeholder="Proj-2026-001" required />
-                  </label>
-                  <label>
-                    <span>Title</span>
-                    <input type="text" id="planTitle" required />
-                  </label>
-                </div>
-                <label>
-                  <span>Description</span>
-                  <textarea id="planDescription" rows="4" required></textarea>
-                </label>
-                <div class="triple">
-                  <label>
-                    <span>Current Price (USD)</span>
-                    <input type="number" id="planCurrentPrice" min="0" step="0.01" required />
-                  </label>
-                  <label>
-                    <span>Old Price (USD)</span>
-                    <input type="number" id="planOldPrice" min="0" step="0.01" />
-                  </label>
-                  <label class="checkbox">
-                    <span>Special Offer</span>
-                    <input type="checkbox" id="planOffer" />
-                  </label>
-                </div>
-                <label>
-                  <span>Image Paths Or Data URLs</span>
-                  <textarea id="planImages" rows="5" placeholder="One image path or data URL per line"></textarea>
-                </label>
-                <label>
-                  <span>Upload Images</span>
-                  <input type="file" id="planImageFiles" accept="image/*" multiple />
-                </label>
-                <div class="form-actions">
-                  <button type="submit" class="primary">Save Plan</button>
-                  <button type="button" class="ghost" id="clearPlanFormBtn">Clear</button>
-                </div>
-              </form>
-            </article>
-
-            <article class="panel">
-              <div class="panel-head">
-                <h2>Buy Plans</h2>
-                <p class="panel-note">Pricing and images here feed the public buy-plan page.</p>
-              </div>
-              <div class="list-panel" id="planList"></div>
-            </article>
-          </div>
-        </section>
-
-        <section class="tab-panel" id="settingsTab">
-          <div class="panel-grid single">
-            <article class="panel">
-              <div class="panel-head">
-                <h2>Admin Access</h2>
-                <p class="panel-note">This login is browser-based. Change it after first use.</p>
-              </div>
-              <form id="credentialsForm" class="stack narrow">
-                <label>
-                  <span>Primary Admin Email</span>
-                  <input type="email" id="adminUsername" required />
-                </label>
-                <label>
-                  <span>Password</span>
-                  <input type="password" id="adminPassword" required />
-                </label>
-                <button type="submit" class="primary">Update Login</button>
-              </form>
-              <p class="warning">This admin panel stores content and credentials in local browser storage. It is suitable for local management, not for production-grade secure hosting.</p>
-            </article>
-            <article class="panel">
-              <div class="panel-head">
-                <h2>GitHub Publishing</h2>
-                <p class="panel-note">Push Buy Plan uploads and pricing into the <code>cms</code> branch.</p>
-              </div>
-              <form id="gitSettingsForm" class="stack">
-                <div class="split">
-                  <label>
-                    <span>Repo Owner</span>
-                    <input type="text" id="gitRepoOwner" placeholder="Ibkiko" required />
-                  </label>
-                  <label>
-                    <span>Repo Name</span>
-                    <input type="text" id="gitRepoName" placeholder="Tri-EcoTeq-Architects-Website" required />
-                  </label>
-                </div>
-                <div class="split">
-                  <label>
-                    <span>Branch</span>
-                    <input type="text" id="gitBranch" placeholder="cms" required />
-                  </label>
-                  <label class="checkbox">
-                    <span>Auto Publish Buy Plans</span>
-                    <input type="checkbox" id="gitAutoPublish" />
-                  </label>
-                </div>
-                <label>
-                  <span>Main Site Base URL</span>
-                  <input type="url" id="publicBaseUrl" placeholder="https://your-main-site.com" />
-                </label>
-                <label>
-                  <span>GitHub Token</span>
-                  <input type="password" id="gitToken" placeholder="GitHub fine-grained token with contents write access" />
-                </label>
-                <div class="form-actions">
-                  <button type="submit" class="primary">Save Git Settings</button>
-                  <button type="button" class="ghost" id="publishPlansBtn">Publish Content Now</button>
-                </div>
-              </form>
-              <p class="hint">Use a GitHub token with write access to repository contents. Uploaded Buy Plan images are committed to <code>Images/Buy-Plan/</code>, plan data to <code>content/buy-plans.json</code>, and portfolio data to <code>content/portfolio.json</code>.</p>
-            </article>
-          </div>
-        </section>
-      </section>
-    </div>
-
-    <div class="status" id="statusMessage" aria-live="polite"></div>
-
-    <script src="../assets/page-loader.js"></script>
-    <script src="../assets/content-store.js"></script>
+    <!-- Copy config.example.js to config.js and keep it private -->
+    <script src="config.js"></script>
+    <script src="api.js"></script>
     <script src="app.js"></script>
-  </body>
+  </main>
+</body>
 </html>
