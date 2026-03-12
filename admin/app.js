@@ -7,6 +7,12 @@
 
   let editId = null;
 
+  function disableForm() {
+    formEl.querySelectorAll("input, textarea, select, button").forEach((el) => {
+      el.disabled = true;
+    });
+  }
+
   function setStatus(message, tone = "info") {
     statusEl.textContent = message;
     statusEl.dataset.tone = tone;
@@ -124,6 +130,14 @@
   });
 
   document.addEventListener("DOMContentLoaded", () => {
+    const apiReady = window.AdminApi && typeof window.AdminApi.fetchProjects === "function";
+    if (!apiReady) {
+      disableForm();
+      listEl.innerHTML =
+        '<li class="project-row"><div class="project-main"><strong>Admin API not configured</strong><span>Add admin/config.js (copy config.example.js) and set apiBaseUrl/authToken.</span></div></li>';
+      setStatus("Admin API not configured. Create admin/config.js from config.example.js.", "error");
+      return;
+    }
     clearForm();
     loadProjects();
   });
