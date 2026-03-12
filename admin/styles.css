@@ -101,20 +101,10 @@ p {
   gap: 12px;
 }
 
-.login-card label {
-  display: grid;
-  gap: 6px;
-}
-
-.login-card label span {
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
 .login-card input[type="email"],
 .login-card input[type="password"] {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border-radius: 12px;
   border: 1px solid rgba(29, 36, 48, 0.14);
   background: rgba(255, 255, 255, 0.96);
