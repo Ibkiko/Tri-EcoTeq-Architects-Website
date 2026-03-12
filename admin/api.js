@@ -2,6 +2,12 @@
   const store = window.TEQContentStore;
   const tokenKey = (window.ADMIN_META && window.ADMIN_META.tokenKey) || "tri_ecoteq_admin_token";
   const apiBaseUrl = (window.ADMIN_CONFIG && window.ADMIN_CONFIG.apiBaseUrl) || "";
+  // Seed store with bundled defaults if empty (ensures data even when remote fetch blocked)
+  if (store && typeof store.getPortfolioProjects === "function" && store.getPortfolioProjects().length === 0) {
+    if (typeof store.resetData === "function") {
+      store.resetData();
+    }
+  }
 
   function normalizeProject(p) {
     return {
@@ -65,9 +71,17 @@
   }
 
   async function getProjects() {
+    const fromStore = readFromStore();
+    if (fromStore.length) return fromStore.map(normalizeProject);
+
     const fromFile = await fetchPortfolioJson();
     if (fromFile.length) return fromFile.map(normalizeProject);
-    return readFromStore().map(normalizeProject);
+
+    // Last resort: use bundled defaults if exposed
+    if (store && store.defaultData && store.defaultData.portfolioProjects) {
+      return store.defaultData.portfolioProjects.map(normalizeProject);
+    }
+    return [];
   }
 
   async function saveProjects(projects) {
