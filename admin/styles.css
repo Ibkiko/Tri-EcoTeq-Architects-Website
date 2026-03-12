@@ -11,6 +11,9 @@ body {
   place-items: center;
   padding: 32px 16px 48px;
   color: #1b1f3b;
+  background: radial-gradient(circle at 20% 20%, #ecf0ff, transparent 35%),
+    radial-gradient(circle at 80% 0%, #e4f3ff, transparent 30%),
+    #f6f7fb;
 }
 
 .shell {
@@ -113,6 +116,7 @@ select {
   border: 1px solid #d7deea;
   border-radius: 10px;
   background: #fdfdff;
+  transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
 }
 
 textarea {
@@ -130,7 +134,7 @@ button {
   border-radius: 10px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 160ms ease;
 }
 
 button:active {
@@ -138,7 +142,7 @@ button:active {
 }
 
 button.primary {
-  background: linear-gradient(135deg, #2036a2, #4a5de8);
+  background: linear-gradient(135deg, #233ea1, #5367f2);
   color: #fff;
   box-shadow: 0 10px 30px rgba(41, 63, 179, 0.25);
 }
@@ -159,6 +163,14 @@ button.danger {
   background: #ffecec;
   color: #8a1026;
   border-color: #f5b8c3;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #4a5de8;
+  box-shadow: 0 0 0 3px rgba(74, 93, 232, 0.15);
 }
 
 ul {
@@ -208,14 +220,16 @@ ul {
   padding: 32px 28px;
   border: 1px solid #e3e7ef;
   border-radius: 16px;
-  box-shadow: 0 24px 60px rgba(27, 31, 59, 0.12);
-  background: linear-gradient(145deg, #ffffff, #f6f8ff);
+  box-shadow: 0 24px 60px rgba(27, 31, 59, 0.12), 0 10px 30px rgba(72, 90, 150, 0.1);
+  background: linear-gradient(160deg, #ffffff 0%, #f3f6ff 60%, #eef2ff 100%);
   display: grid;
-  gap: 14px;
+  gap: 16px;
+  text-align: center;
 }
 
 .login-card h1 {
   margin: 0;
+  font-size: 26px;
 }
 
 .muted {
@@ -232,7 +246,7 @@ ul {
 
 .stack {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .eyebrow {
@@ -241,6 +255,22 @@ ul {
   font-size: 12px;
   margin: 0 0 4px;
   color: #5a6a90;
+}
+
+.center {
+  text-align: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (max-width: 720px) {

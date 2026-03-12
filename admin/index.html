@@ -10,23 +10,14 @@
   <main class="shell">
     <section id="login-view" class="auth-view">
       <div class="login-card">
-        <h1>Admin Login</h1>
-        <p class="muted">Use your admin email and token/password. Stored locally.</p>
+        <h1 class="center">Admin</h1>
         <form id="login-form" class="stack">
-          <label>
-            Email
-            <input name="email" type="email" autocomplete="username" placeholder="admin@tri-ecoteq.com" required>
-          </label>
-          <label>
-            Token / Password
-            <input name="token" type="password" autocomplete="current-password" placeholder="Bearer token or password" required>
-          </label>
+          <label class="sr-only" for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" autocomplete="username" placeholder="Email" required>
+          <label class="sr-only" for="login-token">Token / Password</label>
+          <input id="login-token" name="token" type="password" autocomplete="current-password" placeholder="Token or password" required>
           <button type="submit" class="primary">Sign In</button>
         </form>
-        <div class="hint">
-          <p>API: <code>https://tri-ecoteq-api.vercel.app/api</code></p>
-          <p>Stored token key: <code>tri_ecoteq_admin_token</code></p>
-        </div>
       </div>
     </section>
 
