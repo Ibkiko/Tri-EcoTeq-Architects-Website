@@ -58,6 +58,9 @@ a {
   min-height: calc(100vh - 80px);
   display: grid;
   place-items: center;
+  padding: 28px;
+  background: radial-gradient(circle at 20% 20%, rgba(29, 111, 130, 0.12), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(29, 111, 130, 0.08), transparent 38%);
 }
 
 .login-card,
@@ -70,8 +73,12 @@ a {
 }
 
 .login-card {
-  width: min(480px, 100%);
-  padding: 36px;
+  width: min(420px, 92vw);
+  padding: 28px 30px 32px;
+  border-radius: 20px;
+  box-shadow: 0 26px 60px rgba(20, 32, 47, 0.16);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.94), rgba(246, 246, 242, 0.9));
+  border: 1px solid rgba(29, 36, 48, 0.14);
 }
 
 .eyebrow {
@@ -88,6 +95,39 @@ h2,
 h3,
 p {
   margin-top: 0;
+}
+
+.login-card h1 {
+  margin-bottom: 6px;
+}
+
+.login-card .intro {
+  margin-bottom: 14px;
+}
+
+.login-card .stack {
+  gap: 12px;
+}
+
+.login-card label span {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.login-card input[type="email"],
+.login-card input[type="password"] {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(29, 36, 48, 0.14);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.login-card button.primary {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
 }
 
 .intro,
