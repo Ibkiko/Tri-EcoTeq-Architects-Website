@@ -33,8 +33,8 @@
             <h1>Admin Dashboard</h1>
           </div>
           <div class="topbar-actions">
-            <a class="ghost" href="../portfolio.html">View Portfolio</a>
-            <a class="ghost" href="../buy-plan.html">View Buy Plan</a>
+            <a class="ghost" id="viewPortfolioLink" href="../portfolio.html">View Portfolio</a>
+            <a class="ghost" id="viewBuyPlanLink" href="../buy-plan.html">View Buy Plan</a>
             <button type="button" class="ghost" id="logoutBtn">Logout</button>
           </div>
         </header>
@@ -231,15 +231,19 @@
                   </label>
                 </div>
                 <label>
+                  <span>Main Site Base URL</span>
+                  <input type="url" id="publicBaseUrl" placeholder="https://your-main-site.com" />
+                </label>
+                <label>
                   <span>GitHub Token</span>
                   <input type="password" id="gitToken" placeholder="GitHub fine-grained token with contents write access" />
                 </label>
                 <div class="form-actions">
                   <button type="submit" class="primary">Save Git Settings</button>
-                  <button type="button" class="ghost" id="publishPlansBtn">Publish Buy Plans Now</button>
+                  <button type="button" class="ghost" id="publishPlansBtn">Publish Content Now</button>
                 </div>
               </form>
-              <p class="hint">Use a GitHub token with write access to repository contents. Uploaded Buy Plan images will be committed to <code>Images/Buy-Plan/</code> and plan data to <code>content/buy-plans.json</code>.</p>
+              <p class="hint">Use a GitHub token with write access to repository contents. Uploaded Buy Plan images are committed to <code>Images/Buy-Plan/</code>, plan data to <code>content/buy-plans.json</code>, and portfolio data to <code>content/portfolio.json</code>.</p>
             </article>
           </div>
         </section>

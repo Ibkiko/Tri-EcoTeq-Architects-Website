@@ -14,7 +14,8 @@
     repo: "Tri-EcoTeq-Architects-Website",
     branch: "cms",
     token: "",
-    autoPublish: false
+    autoPublish: false,
+    publicBaseUrl: ""
   };
 
   var loginView = document.getElementById("loginView");
@@ -60,6 +61,9 @@
   var gitToken = document.getElementById("gitToken");
   var gitAutoPublish = document.getElementById("gitAutoPublish");
   var publishPlansBtn = document.getElementById("publishPlansBtn");
+  var publicBaseUrl = document.getElementById("publicBaseUrl");
+  var viewPortfolioLink = document.getElementById("viewPortfolioLink");
+  var viewBuyPlanLink = document.getElementById("viewBuyPlanLink");
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
@@ -116,7 +120,8 @@
       repo: String(raw.repo || DEFAULT_GIT_SETTINGS.repo).trim(),
       branch: String(raw.branch || DEFAULT_GIT_SETTINGS.branch).trim() || DEFAULT_GIT_SETTINGS.branch,
       token: String(raw.token || ""),
-      autoPublish: Boolean(raw.autoPublish)
+      autoPublish: Boolean(raw.autoPublish),
+      publicBaseUrl: String(raw.publicBaseUrl || DEFAULT_GIT_SETTINGS.publicBaseUrl || "").trim()
     };
   }
 
@@ -490,6 +495,30 @@
     gitBranch.value = settings.branch;
     gitToken.value = settings.token;
     gitAutoPublish.checked = settings.autoPublish;
+    publicBaseUrl.value = settings.publicBaseUrl || "";
+    applyPublicLinks();
+  }
+
+  function getPublicBaseUrl() {
+    var settings = getGitSettings();
+    var base = settings.publicBaseUrl || "";
+    if (!base) return "";
+    return base.replace(/\/+$/, "");
+  }
+
+  function applyPublicLinks() {
+    var base = getPublicBaseUrl();
+    if (!base) return;
+    if (viewPortfolioLink) {
+      viewPortfolioLink.href = base + "/portfolio.html";
+      viewPortfolioLink.target = "_blank";
+      viewPortfolioLink.rel = "noopener noreferrer";
+    }
+    if (viewBuyPlanLink) {
+      viewBuyPlanLink.href = base + "/buy-plan.html";
+      viewBuyPlanLink.target = "_blank";
+      viewBuyPlanLink.rel = "noopener noreferrer";
+    }
   }
 
   function renderAll() {
@@ -589,6 +618,52 @@
     saveData(data);
   }
 
+  async function publishPortfolioToGithub() {
+    var settings = getGitSettings();
+    var data = getData();
+    var projects = clone(data.portfolioProjects || []);
+
+    if (!settings.owner || !settings.repo || !settings.branch || !settings.token) {
+      throw new Error("GitHub settings are incomplete");
+    }
+
+    for (var i = 0; i < projects.length; i += 1) {
+      var project = projects[i];
+      var dataUrl = dataUrlToBase64(project.image);
+
+      if (!dataUrl) {
+        continue;
+      }
+
+      var extension = extensionFromMimeType(dataUrl.mimeType);
+      var filename = slugifyFilePart(project.id || project.title || "project") + "-" + String(Date.now()) + "." + extension;
+      var repoPath = "admin/portfolio-library/" + filename;
+
+      await putGithubFile(repoPath, dataUrl.content, "Upload portfolio image for " + (project.id || project.title || "project"), settings);
+      project.image = repoPath;
+    }
+
+    var payload = {
+      portfolioProjects: projects,
+      updatedAt: new Date().toISOString()
+    };
+
+    await putGithubFile(
+      "content/portfolio.json",
+      encodeUtf8Base64(JSON.stringify(payload, null, 2)),
+      "Update portfolio content from admin",
+      settings
+    );
+
+    data.portfolioProjects = projects;
+    saveData(data);
+  }
+
+  async function publishSiteContent() {
+    await publishPortfolioToGithub();
+    await publishBuyPlansToGithub();
+  }
+
   function syncAuthView() {
     var loggedIn = isLoggedIn();
     document.body.classList.toggle("is-authenticated", loggedIn);
@@ -680,6 +755,12 @@
 
       saveData(data);
       clearProjectForm();
+      var gitSettings = getGitSettings();
+      if (gitSettings.autoPublish && gitSettings.token) {
+        return publishSiteContent().then(function () {
+          showStatus("Project saved and published");
+        });
+      }
       showStatus("Project saved");
     }).catch(function () {
       showStatus("Image upload failed");
@@ -729,7 +810,7 @@
       clearPlanForm();
       var gitSettings = getGitSettings();
       if (gitSettings.autoPublish && gitSettings.token) {
-        return publishBuyPlansToGithub().then(function () {
+        return publishSiteContent().then(function () {
           showStatus("Plan saved and published");
         });
       }
@@ -767,8 +848,10 @@
       repo: gitRepoName.value,
       branch: gitBranch.value,
       token: gitToken.value,
-      autoPublish: gitAutoPublish.checked
+      autoPublish: gitAutoPublish.checked,
+      publicBaseUrl: publicBaseUrl.value
     });
+    applyPublicLinks();
     showStatus("GitHub settings saved");
   });
 
@@ -815,8 +898,8 @@
 
   publishPlansBtn.addEventListener("click", function () {
     publishPlansBtn.disabled = true;
-    publishBuyPlansToGithub().then(function () {
-      showStatus("Buy Plans published to GitHub");
+    publishSiteContent().then(function () {
+      showStatus("Content published to GitHub");
     }).catch(function (error) {
       console.error(error);
       showStatus("GitHub publish failed");

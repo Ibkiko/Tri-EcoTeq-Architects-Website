@@ -1,0 +1,85 @@
+{
+  "portfolioProjects": [
+    {
+      "id": "portfolio-2024-01",
+      "title": "Portfolio Series 2024-01",
+      "category": "Residential",
+      "location": "Nairobi, Kenya",
+      "year": "2024",
+      "description": "Contemporary residential concept balancing natural light, privacy, and efficient internal flow.",
+      "priceLabel": "",
+      "image": "admin/portfolio-library/IMG-20240131-WA0009.jpg"
+    },
+    {
+      "id": "portfolio-2024-04",
+      "title": "Portfolio Series 2024-04",
+      "category": "Interior",
+      "location": "Nairobi, Kenya",
+      "year": "2024",
+      "description": "Refined interior composition with warm finishes, layered materials, and practical spatial detailing.",
+      "priceLabel": "",
+      "image": "admin/portfolio-library/IMG_20240411_174334.jpg"
+    },
+    {
+      "id": "portfolio-2024-08",
+      "title": "Portfolio Series 2024-08",
+      "category": "Residential",
+      "location": "Nairobi, Kenya",
+      "year": "2024",
+      "description": "A modern home study focused on structural clarity, clean massing, and livable family spaces.",
+      "priceLabel": "",
+      "image": "admin/portfolio-library/IMG-20240806-WA0004.jpg"
+    },
+    {
+      "id": "portfolio-2025-04",
+      "title": "Portfolio Series 2025-04",
+      "category": "Commercial",
+      "location": "Nairobi, Kenya",
+      "year": "2025",
+      "description": "Commercial project work centered on visibility, user circulation, and cost-conscious execution.",
+      "priceLabel": "",
+      "image": "admin/portfolio-library/IMG-20250430-WA0004.jpg"
+    },
+    {
+      "id": "portfolio-2025-05",
+      "title": "Portfolio Series 2025-05",
+      "category": "Institutional",
+      "location": "Nairobi, Kenya",
+      "year": "2025",
+      "description": "Institutional design direction that prioritizes durability, accessibility, and disciplined planning.",
+      "priceLabel": "",
+      "image": "admin/portfolio-library/IMG-20250517-WA0003.jpg"
+    },
+    {
+      "id": "portfolio-2025-06",
+      "title": "Portfolio Series 2025-06",
+      "category": "Hospitality",
+      "location": "Nairobi, Kenya",
+      "year": "2025",
+      "description": "Hospitality-focused design with layered guest experiences and a strong visual identity.",
+      "priceLabel": "",
+      "image": "admin/portfolio-library/IMG-20250620-WA0007.jpg"
+    },
+    {
+      "id": "portfolio-2025-08",
+      "title": "Portfolio Series 2025-08",
+      "category": "Mixed-use",
+      "location": "Nairobi, Kenya",
+      "year": "2025",
+      "description": "Mixed-use proposal shaped around adaptable ground-floor activation and efficient upper-level planning.",
+      "priceLabel": "",
+      "image": "admin/portfolio-library/IMG-20250811-WA0001.jpg"
+    },
+    {
+      "id": "portfolio-2025-10",
+      "title": "Portfolio Series 2025-10",
+      "category": "Civic",
+      "location": "Nairobi, Kenya",
+      "year": "2025",
+      "description": "Civic-facing scheme designed for public presence, clear navigation, and robust long-term use.",
+      "priceLabel": "",
+      "image": "admin/portfolio-library/IMG-20251031-WA0000.jpg"
+    }
+  ],
+  "updatedAt": "2026-03-12T00:00:00.000Z"
+}

@@ -969,6 +969,7 @@
       const categoryFilter = document.getElementById("categoryFilter");
       const yearFilter = document.getElementById("yearFilter");
       const projectsGrid = document.getElementById("projectsGrid");
+      let liveProjects = [];
 
       function setFilterOptions(select, label, values) {
         if (!select) return;
@@ -991,10 +992,23 @@
         select.value = values.indexOf(previousValue) >= 0 ? previousValue : "all";
       }
 
-      function renderProjects() {
-        if (!projectsGrid || !store) return;
+      async function loadPortfolioSource() {
+        try {
+          const response = await fetch("content/portfolio.json", { cache: "no-store" });
+          if (!response.ok) throw new Error("Missing portfolio content");
+          const json = await response.json();
+          if (Array.isArray(json)) return json;
+          if (Array.isArray(json.portfolioProjects)) return json.portfolioProjects;
+          return [];
+        } catch (error) {
+          return store ? store.getPortfolioProjects() : [];
+        }
+      }
 
-        const projects = store.getPortfolioProjects();
+      function renderProjects(projects = liveProjects) {
+        if (!projectsGrid) return;
+
+        liveProjects = projects;
         const categories = Array.from(new Set(projects.map((project) => project.category))).sort();
         const years = Array.from(new Set(projects.map((project) => project.year))).sort().reverse();
 
@@ -1077,8 +1091,10 @@
         yearFilter.addEventListener("change", applyFilters);
       }
 
-      renderProjects();
-      window.addEventListener("teq-content-store:change", renderProjects);
+      loadPortfolioSource().then(renderProjects);
+      window.addEventListener("teq-content-store:change", function () {
+        loadPortfolioSource().then(renderProjects);
+      });
     </script>
   </body>
 </html>
