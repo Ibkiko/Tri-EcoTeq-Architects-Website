@@ -52,6 +52,26 @@
     }
   }
 
+  function applyMainLinks() {
+    const base =
+      (window.ADMIN_META && window.ADMIN_META.mainSiteUrl) ||
+      (window.ADMIN_CONFIG && window.ADMIN_CONFIG.mainSiteUrl) ||
+      window.location.origin;
+    const normalized = (base || "").replace(/\/$/, "");
+    const targets = [
+      { selector: "[data-link-main]", path: "/" },
+      { selector: "[data-link-portfolio]", path: "/portfolio.html" },
+      { selector: "[data-link-buy-plan]", path: "/buy-plan.html" }
+    ];
+    targets.forEach(({ selector, path }) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.href = `${normalized}${path}`;
+        el.target = "_blank";
+        el.rel = "noreferrer noopener";
+      });
+    });
+  }
+
   function initProjects() {
     if (window.AdminProjects) {
       window.AdminProjects.init({
@@ -72,6 +92,7 @@
     initNav();
     initLogout();
     initMeta();
+    applyMainLinks();
     initProjects();
     setStatus("Ready");
     const loader = document.querySelector("[data-page-loader]");
