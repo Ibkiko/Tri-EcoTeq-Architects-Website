@@ -1,11 +1,287 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="refresh" content="0; url=login.html" />
-  <title>Admin | Tri-EcoTeq</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tri-EcoTeq Admin</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --accent: #38bdf8;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #ef4444;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #1f2937, #0b1224 50%), var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 48px 16px;
+    }
+    .shell {
+      width: min(1100px, 100%);
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.08), rgba(99, 102, 241, 0.05));
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      padding: 24px;
+      backdrop-filter: blur(6px);
+    }
+    h1, h2 { margin: 0 0 12px; }
+    .grid { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    label { display: block; margin: 10px 0 6px; color: var(--muted); font-size: 0.9rem; }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: #0b1224;
+      color: var(--text);
+      font-size: 1rem;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    button {
+      margin-top: 12px;
+      border: none;
+      background: linear-gradient(120deg, #38bdf8, #6366f1);
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+    }
+    button:hover { transform: translateY(-1px); box-shadow: 0 10px 20px rgba(56,189,248,0.25); }
+    .danger { background: var(--danger); }
+    .muted { color: var(--muted); font-size: 0.95rem; }
+    .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .project-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    .flex { display: flex; gap: 8px; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .pill { padding: 4px 10px; border-radius: 999px; background: rgba(56,189,248,0.15); color: #67e8f9; font-size: 0.8rem; }
+    .status { margin-bottom: 6px; min-height: 20px; }
+    .hidden { display: none !important; }
+    .small { font-size: 0.9rem; }
+  </style>
 </head>
 <body>
-  <p>Redirecting to <a href="login.html">login</a>...</p>
+  <div class="shell">
+    <div class="flex-between">
+      <h1>Admin Dashboard</h1>
+      <div id="loginState" class="muted small"></div>
+    </div>
+    <div class="grid grid-2">
+      <div class="card" id="loginCard">
+        <h2>Admin Login</h2>
+        <div class="status" id="loginStatus"></div>
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="admin@example.com" autocomplete="username" />
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+        <button id="loginBtn">Login</button>
+      </div>
+
+      <div class="card hidden" id="createCard">
+        <h2>Create Project</h2>
+        <div class="status" id="createStatus"></div>
+        <label for="title">Title</label>
+        <input id="title" type="text" placeholder="Project title" />
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Brief description"></textarea>
+        <label for="category">Category</label>
+        <input id="category" type="text" placeholder="Residential / Commercial / ..." />
+        <label for="image">Image</label>
+        <input id="image" type="file" accept="image/*" />
+        <button id="createBtn">Upload Project</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="flex-between">
+        <h2>Projects</h2>
+        <button class="small" id="refreshBtn" style="width:auto;padding:8px 12px;">Refresh</button>
+      </div>
+      <div class="status" id="listStatus"></div>
+      <div class="projects" id="projectList"></div>
+    </div>
+  </div>
+
+  <script>
+    // Use Render backend base URL (no extra path)
+    const API_BASE = 'https://triecoteq-backend.onrender.com';
+
+    const els = {
+      loginCard: document.getElementById('loginCard'),
+      createCard: document.getElementById('createCard'),
+      loginStatus: document.getElementById('loginStatus'),
+      createStatus: document.getElementById('createStatus'),
+      listStatus: document.getElementById('listStatus'),
+      loginState: document.getElementById('loginState'),
+      email: document.getElementById('email'),
+      password: document.getElementById('password'),
+      title: document.getElementById('title'),
+      description: document.getElementById('description'),
+      category: document.getElementById('category'),
+      image: document.getElementById('image'),
+      projectList: document.getElementById('projectList'),
+      loginBtn: document.getElementById('loginBtn'),
+      createBtn: document.getElementById('createBtn'),
+      refreshBtn: document.getElementById('refreshBtn'),
+    };
+
+    const tokenKey = 'triecoteq_admin_token';
+
+    const setStatus = (el, msg, ok = true) => {
+      if (!el) return;
+      el.textContent = msg || '';
+      el.style.color = msg ? (ok ? '#67e8f9' : '#fca5a5') : 'inherit';
+    };
+
+    const getToken = () => localStorage.getItem(tokenKey);
+    const setToken = (t) => localStorage.setItem(tokenKey, t);
+    const clearToken = () => localStorage.removeItem(tokenKey);
+
+    const authHeaders = () => ({
+      Authorization: `Bearer ${getToken()}`,
+    });
+
+    const toggleAuthUI = (authed) => {
+      els.loginCard.classList.toggle('hidden', authed);
+      els.createCard.classList.toggle('hidden', !authed);
+      els.loginState.textContent = authed ? 'Logged in' : 'Not logged in';
+    };
+
+    async function login() {
+      setStatus(els.loginStatus, 'Logging in...', true);
+      try {
+        const body = { email: els.email.value.trim(), password: els.password.value };
+        const res = await fetch(`${API_BASE}/api/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error('Invalid credentials');
+        const data = await res.json();
+        setToken(data.token);
+        toggleAuthUI(true);
+        setStatus(els.loginStatus, 'Logged in', true);
+        await loadProjects();
+      } catch (err) {
+        setStatus(els.loginStatus, err.message || 'Login failed', false);
+      }
+    }
+
+    async function loadProjects() {
+      setStatus(els.listStatus, 'Loading...', true);
+      try {
+        const res = await fetch(`${API_BASE}/api/projects`, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const projects = await res.json();
+        renderProjects(projects);
+        setStatus(els.listStatus, `Loaded ${projects.length} projects`, true);
+      } catch (err) {
+        setStatus(els.listStatus, err.message || 'Failed to load projects', false);
+      }
+    }
+
+    function renderProjects(projects) {
+      els.projectList.innerHTML = projects
+        .map(
+          (p) => `
+          <div class="card project-card">
+            <img src="${API_BASE}${p.imageUrl || ''}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400x260?text=No+Image'">
+            <div class="flex-between" style="margin:10px 0;">
+              <h3 style="margin:0;">${p.title}</h3>
+              <span class="pill">${p.category || 'Project'}</span>
+            </div>
+            <p class="muted small" style="min-height:48px;">${p.description}</p>
+            <div class="flex">
+              <button class="danger small" style="padding:8px;" onclick="deleteProject('${p._id}')">Delete</button>
+            </div>
+          </div>
+        `
+        )
+        .join('');
+    }
+
+    async function createProject() {
+      if (!getToken()) {
+        setStatus(els.createStatus, 'Please login first', false);
+        return;
+      }
+      const formData = new FormData();
+      formData.append('title', els.title.value.trim());
+      formData.append('description', els.description.value.trim());
+      formData.append('category', els.category.value.trim());
+      if (els.image.files[0]) formData.append('image', els.image.files[0]);
+
+      setStatus(els.createStatus, 'Uploading...', true);
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/projects`, {
+          method: 'POST',
+          headers: authHeaders(),
+          body: formData,
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        setStatus(els.createStatus, 'Project created', true);
+        els.title.value = '';
+        els.description.value = '';
+        els.category.value = '';
+        els.image.value = '';
+        await loadProjects();
+      } catch (err) {
+        setStatus(els.createStatus, err.message || 'Failed to create project', false);
+      }
+    }
+
+    async function deleteProject(id) {
+      if (!getToken()) {
+        alert('Login first');
+        return;
+      }
+      if (!confirm('Delete this project?')) return;
+      setStatus(els.listStatus, 'Deleting...', true);
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/projects/${id}`, {
+          method: 'DELETE',
+          headers: authHeaders(),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        await loadProjects();
+      } catch (err) {
+        setStatus(els.listStatus, err.message || 'Delete failed', false);
+      }
+    }
+
+    // expose for inline onclick
+    window.deleteProject = deleteProject;
+
+    // Event bindings
+    els.loginBtn.addEventListener('click', login);
+    els.createBtn.addEventListener('click', createProject);
+    els.refreshBtn.addEventListener('click', loadProjects);
+
+    // Init
+    (async () => {
+      const hasToken = Boolean(getToken());
+      toggleAuthUI(hasToken);
+      await loadProjects();
+    })();
+  </script>
 </body>
 </html>
