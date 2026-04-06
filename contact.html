@@ -47,7 +47,7 @@
       }
 
       .container {
-        width: min(1120px, 90%);
+        width: min(1200px, 92%);
         margin: 0 auto;
       }
 
@@ -401,143 +401,120 @@
         padding: 18px;
       }
 
-      .contact-form-card {
-        background: #e2e2e2;
-        border: 1.5px solid rgba(21, 34, 56, 0.2);
-        border-radius: 16px;
-        padding: 18px 18px 16px;
-        box-shadow: none;
-        flex: 1;
-        min-height: auto;
+      #contact h2 {
+        text-align: center;
+        font-size: clamp(2.2rem, 4.6vw, 3.2rem);
+        margin-bottom: 6px;
       }
 
-      #contact .grid-2 {
-        align-items: start;
+      #contact .lead {
+        text-align: center;
+        margin: 0 auto 18px;
       }
 
-      #contact .grid-2 > div {
-        display: flex;
-        flex-direction: column;
+      .contact-shell {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 22px;
+        align-items: stretch;
       }
 
-      .contact-info-column {
-        padding-top: 0;
+      .contact-card {
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(235, 242, 251, 0.96));
+        border: 1px solid rgba(21, 34, 56, 0.14);
+        border-radius: 18px;
+        box-shadow: 0 20px 42px rgba(22, 51, 84, 0.15);
+        padding: 22px 22px 20px;
+      }
+
+      body[data-theme="dark"] .contact-card {
+        background: linear-gradient(180deg, rgba(20, 32, 47, 0.96), rgba(14, 26, 40, 0.94));
+        border-color: rgba(142, 213, 236, 0.28);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.32);
+      }
+
+      .contact-card h3 {
+        margin: 0 0 6px;
+        font-size: 1.4rem;
+        color: var(--accent);
       }
 
       .form {
         display: grid;
-        gap: 10px;
+        gap: 14px;
       }
 
       .form-row {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
       }
 
       .field {
         display: grid;
-        gap: 7px;
+        gap: 6px;
       }
 
       .field-label {
-        font-size: 0.9rem;
+        font-size: 0.92rem;
         font-weight: 700;
-        color: #101010;
+        color: #1f2f43;
+      }
+
+      body[data-theme="dark"] .field-label {
+        color: #d7e6f4;
       }
 
       .input, .textarea {
         width: 100%;
-        padding: 9px 10px;
-        border-radius: 0;
-        border: 1px solid #df4444;
+        padding: 12px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(21, 34, 56, 0.16);
         font-family: inherit;
         background: #fff;
-        transition: border-color 0.2s ease, background-color 0.2s ease;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
       }
 
       .input::placeholder,
       .textarea::placeholder {
-        color: #6f86a1;
+        color: #7a8ea4;
       }
 
       .input:focus,
       .textarea:focus {
         outline: none;
-        border-color: #b92929;
-        background: #fff;
-        box-shadow: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(31, 111, 139, 0.18);
+      }
+
+      body[data-theme="dark"] .input,
+      body[data-theme="dark"] .textarea {
+        background: #101a27;
+        border-color: rgba(142, 213, 236, 0.26);
+        color: #e8f3ff;
       }
 
       .textarea {
-        min-height: 96px;
+        min-height: 120px;
         resize: vertical;
       }
 
       .form-note {
-        margin: 2px 0 0;
-        font-size: 0.86rem;
+        margin: -2px 0 0;
+        font-size: 0.9rem;
         color: var(--muted);
       }
 
       .form .button {
         width: 100%;
         min-width: 0;
-        border-radius: 0;
-        background: #d97740;
+        border-radius: 12px;
+        background: linear-gradient(120deg, #1f6f8b, #4f9db5);
+        font-weight: 600;
       }
 
       .form .button:hover {
-        background: #c96933;
-      }
-
-      .contact-info-card {
-        background: #dcdcdc;
-        border: 1.5px solid rgba(21, 34, 56, 0.2);
-        border-radius: 16px;
-        padding: 16px 22px;
-        box-shadow: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        gap: 12px;
-        flex: 1;
-        min-height: auto;
-      }
-
-      .contact-info-card h3 {
-        margin-top: 0;
-        margin-bottom: 4px;
-        font-size: 2rem;
-      }
-
-      .contact-info-body {
-        display: grid;
-        gap: 2px;
-        color: #1f1f1f;
-        line-height: 1.45;
-      }
-
-      .contact-line {
-        margin: 0;
-        font-size: 1rem;
-      }
-
-      .contact-divider {
-        margin: 8px 0;
-        border: 0;
-        height: 1px;
-        background: #b9b9b9;
-      }
-
-      .contact-info-card a {
-        color: #1f1f1f;
-        font-weight: 700;
-      }
-
-      .contact-info-card .form-note {
-        margin-top: 4px;
-        padding-top: 0;
+        background: linear-gradient(120deg, #1c6380, #458aa1);
       }
 
       .captcha-row {
@@ -546,60 +523,135 @@
         justify-content: space-between;
         gap: 10px;
         padding: 12px;
-        border: 1px solid #bdbdbd;
-        border-radius: 0;
-        background: #f4f4f4;
+        border: 1px solid rgba(21, 34, 56, 0.16);
+        border-radius: 12px;
+        background: rgba(31, 111, 139, 0.05);
+      }
+
+      body[data-theme="dark"] .captcha-row {
+        border-color: rgba(142, 213, 236, 0.28);
+        background: rgba(142, 213, 236, 0.07);
       }
 
       .captcha-question {
         font-weight: 700;
-        color: #1c3554;
+        color: var(--accent);
         letter-spacing: 0.2px;
       }
 
       .captcha-refresh {
         min-width: auto;
         padding: 8px 12px;
-        font-size: 0.82rem;
+        font-size: 0.86rem;
       }
 
-      .open-hours {
-        border-top: 0;
-        padding-top: 10px;
+      .map-card {
         display: grid;
-        gap: 2px;
-        margin-top: 10px;
+        gap: 12px;
       }
 
-      .open-hours h3 {
-        margin: 0 0 6px;
-        font-size: 2rem;
+      .map-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .map-tab {
+        border: 1px solid rgba(21, 34, 56, 0.18);
+        background: #fff;
+        color: #1f2f43;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.18s ease;
+      }
+
+      .map-tab.is-active {
+        background: linear-gradient(120deg, #1f6f8b, #4f9db5);
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 12px 24px rgba(31, 111, 139, 0.22);
+      }
+
+      body[data-theme="dark"] .map-tab {
+        background: #101a27;
+        color: #dce8f6;
+        border-color: rgba(142, 213, 236, 0.24);
+      }
+
+      body[data-theme="dark"] .map-tab.is-active {
+        background: linear-gradient(120deg, #8ed5ec, #4f9db5);
+        color: #081019;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.32);
       }
 
       .location-map {
-        margin-top: 18px;
         border-radius: 16px;
         overflow: hidden;
-        border: 1.5px solid rgba(21, 34, 56, 0.2);
-        box-shadow: none;
+        border: 1px solid rgba(21, 34, 56, 0.18);
+        box-shadow: 0 12px 28px rgba(22, 51, 84, 0.18);
+      }
+
+      body[data-theme="dark"] .location-map {
+        border-color: rgba(142, 213, 236, 0.24);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.36);
       }
 
       .location-map iframe {
         width: 100%;
-        height: 240px;
+        height: 320px;
         border: 0;
         display: block;
       }
 
-      #contact h2 {
-        text-align: center;
-        font-size: clamp(2.2rem, 4.6vw, 3.2rem);
-        margin-bottom: 8px;
+      .contact-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 14px;
+        margin-top: 18px;
       }
 
-      #contact .lead {
-        text-align: center;
-        margin: 0 auto 16px;
+      .contact-info-card {
+        border-radius: 14px;
+        border: 1px solid rgba(21, 34, 56, 0.14);
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(235, 242, 251, 0.96));
+        padding: 14px 16px 12px;
+        box-shadow: 0 10px 22px rgba(22, 51, 84, 0.12);
+        display: grid;
+        gap: 4px;
+      }
+
+      body[data-theme="dark"] .contact-info-card {
+        background: linear-gradient(175deg, rgba(20, 32, 47, 0.96), rgba(14, 26, 40, 0.94));
+        border-color: rgba(142, 213, 236, 0.24);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.32);
+      }
+
+      .contact-info-card h4 {
+        margin: 0 0 4px;
+        font-size: 1.05rem;
+      }
+
+      .contact-line {
+        margin: 0;
+        font-size: 0.98rem;
+        color: #1f2f43;
+      }
+
+      body[data-theme="dark"] .contact-line,
+      body[data-theme="dark"] .contact-info-card a {
+        color: #dce8f6;
+      }
+
+      .contact-info-card a {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .open-hours {
+        display: grid;
+        gap: 2px;
       }
 
       .site-footer {
@@ -740,28 +792,29 @@
 
     <main>
       <section id="contact" class="section alt">
-        <div class="container grid-2">
-          <div>
-            <h2>Contact Us</h2>
-            <p class="lead">Tell us about your project. We respond quickly and thoughtfully.</p>
-            <div class="contact-form-card">
+        <div class="container">
+          <h2>Contact Us</h2>
+          <p class="lead">Have questions? Send us a note and we'll get back shortly.</p>
+          <div class="contact-shell">
+            <div class="contact-card">
+              <h3>Send a Message</h3>
               <form class="form" id="contactForm">
                 <div class="form-row">
                   <label class="field">
-                    <span class="field-label">Name</span>
+                    <span class="field-label">Full name</span>
                     <input class="input" type="text" placeholder="Your name" autocomplete="name" />
                   </label>
                   <label class="field">
-                    <span class="field-label">Email</span>
+                    <span class="field-label">Email address</span>
                     <input class="input" type="email" placeholder="you@email.com" autocomplete="email" />
                   </label>
                 </div>
                 <label class="field">
-                  <span class="field-label">Phone</span>
+                  <span class="field-label">Phone number</span>
                   <input class="input" type="tel" placeholder="+254..." autocomplete="tel" />
                 </label>
                 <label class="field">
-                  <span class="field-label">Message</span>
+                  <span class="field-label">Your message</span>
                   <textarea class="textarea" id="contactMessage" placeholder="Tell us about your project"></textarea>
                 </label>
                 <label class="field captcha-field">
@@ -777,42 +830,49 @@
                 <button class="button" type="submit">Send Message</button>
               </form>
             </div>
+            <div class="contact-card map-card">
+              <div class="map-tabs">
+                <button class="map-tab is-active" data-maptype="m" type="button">Roadmap</button>
+                <button class="map-tab" data-maptype="k" type="button">Satellite</button>
+                <button class="map-tab" data-maptype="p" type="button">Terrain</button>
+              </div>
+              <div class="location-map" aria-label="Map showing Tri-EcoTeq location">
+                <iframe
+                  id="mapFrame"
+                  title="Tri-EcoTeq Architects location map"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Reliance+Centre+Woodvale+Avenue+Westlands+Nairobi&output=embed">
+                </iframe>
+              </div>
+            </div>
           </div>
-          <div class="contact-info-column">
+          <div class="contact-info-grid">
             <div class="contact-info-card">
-            <p class="contact-line">Come tour our facility! Call us to book your tour today:</p>
-            <div class="contact-info-body">
-              <p class="contact-line"><a href="tel:+254748684366">+254748684366</a></p>
-              <p class="contact-line"><a href="tel:+254728240363">+254728240363</a></p>
-              <p class="contact-line"><a href="tel:+254743945932">+254743945932</a></p>
+              <h4>Call Us</h4>
+              <p class="contact-line"><a href="tel:+254748684366">+254 748 684 366</a></p>
+              <p class="contact-line"><a href="tel:+254728240363">+254 728 240 363</a></p>
+              <p class="contact-line"><a href="tel:+254743945932">+254 743 945 932</a></p>
             </div>
-            <div class="open-hours">
-              <h3>Find Us</h3>
-              <p class="contact-line">P.O. Box 45854-00100</p>
-              <p class="contact-line">WoodVale Avenue, Westlands</p>
-              <p class="contact-line">Nairobi, Kenya</p>
-              <p class="contact-line">Email: <a href="mailto:triecoteq@gmail.com">triecoteq@gmail.com</a></p>
+            <div class="contact-info-card">
+              <h4>Visit</h4>
+              <div class="open-hours">
+                <p class="contact-line">P.O. Box 45854-00100</p>
+                <p class="contact-line">WoodVale Avenue, Westlands</p>
+                <p class="contact-line">Nairobi, Kenya</p>
+                <p class="contact-line">Email: <a href="mailto:triecoteq@gmail.com">triecoteq@gmail.com</a></p>
+              </div>
             </div>
-            <div class="open-hours">
-              <h3>Open Hours</h3>
-              <p class="contact-line"><strong>Monday-Thursday:</strong> 8:00 AM-5:00 PM</p>
-              <p class="contact-line"><strong>Friday:</strong> 8:00 AM-4:00 PM</p>
-              <p class="contact-line"><strong>Saturday:</strong> 10:30 AM-3:00 PM</p>
-              <p class="contact-line"><strong>Sunday:</strong> Closed</p>
-              <p class="form-note">* Holiday hours may vary.</p>
-
+            <div class="contact-info-card">
+              <h4>Hours</h4>
+              <div class="open-hours">
+                <p class="contact-line"><strong>Mon–Thu:</strong> 8:00 AM – 5:00 PM</p>
+                <p class="contact-line"><strong>Fri:</strong> 8:00 AM – 4:00 PM</p>
+                <p class="contact-line"><strong>Sat:</strong> 10:30 AM – 3:00 PM</p>
+                <p class="contact-line"><strong>Sun:</strong> Closed</p>
+                <p class="form-note">* Holiday hours may vary.</p>
+              </div>
             </div>
-            </div>
-          </div>
-        </div>
-        <div class="container" style="padding-top: 18px; padding-bottom: 8px;">
-          <div class="location-map" aria-label="Map showing Tri-EcoTeq location">
-            <iframe
-              title="Tri-EcoTeq Architects location map"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps?q=Reliance+Centre+Woodvale+Avenue+Westlands+Nairobi&output=embed">
-            </iframe>
           </div>
         </div>
       </section>
