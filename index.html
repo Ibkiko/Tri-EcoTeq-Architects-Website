@@ -35,6 +35,9 @@
         background:
           radial-gradient(circle at 12% 10%, #d9ecff 0%, #c8e2f9 36%, transparent 60%),
           linear-gradient(180deg, #d5e8f8 0%, #deedf9 52%, var(--bg) 100%);
+        font-size: 17px;
+        line-height: 1.7;
+        letter-spacing: 0.01em;
       }
 
       a {
@@ -47,7 +50,7 @@
       }
 
       .container {
-        width: min(1120px, 90%);
+        width: min(1280px, 92%);
         margin: 0 auto;
       }
 
@@ -105,19 +108,19 @@
 
       .nav-links {
         display: flex;
-        gap: 10px;
+        gap: 12px;
         align-items: center;
-        font-size: 14px;
+        font-size: 15.5px;
         background: rgba(255, 255, 255, 0.66);
         border: 1px solid rgba(28, 27, 26, 0.08);
         border-radius: 999px;
-        padding: 6px;
+        padding: 8px 10px;
       }
 
       .nav-links a {
-        padding: 8px 12px;
+        padding: 10px 14px;
         border-radius: 999px;
-        font-weight: 500;
+        font-weight: 600;
         color: #35322f;
         transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
       }
@@ -146,13 +149,13 @@
       }
 
       .hero {
-        padding: 80px 0 60px;
+        padding: 96px 0 64px;
       }
 
       .hero-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 40px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 44px;
         align-items: center;
       }
 
@@ -187,24 +190,42 @@
 
       .eyebrow {
         text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 12px;
+        letter-spacing: 3px;
+        font-size: 13px;
+        font-weight: 600;
         color: var(--muted);
       }
 
       h1, h2, h3 {
         font-family: "Playfair Display", serif;
+        font-weight: 700;
+        letter-spacing: -0.01em;
       }
 
       h1 {
-        font-size: clamp(2.5rem, 4vw, 3.6rem);
-        margin: 12px 0;
+        font-size: clamp(3rem, 4.4vw, 4.2rem);
+        margin: 12px 0 16px;
+        line-height: 1.12;
+      }
+
+      h2 {
+        font-size: clamp(1.9rem, 3vw, 2.3rem);
+        line-height: 1.2;
+      }
+
+      h3 {
+        font-size: clamp(1.2rem, 2.1vw, 1.4rem);
+      }
+
+      p,
+      li {
+        font-size: 1.05rem;
       }
 
       .lead {
-        font-size: 1.1rem;
+        font-size: 1.18rem;
         color: var(--muted);
-        line-height: 1.8;
+        line-height: 1.9;
       }
 
       .hero-actions {
@@ -240,6 +261,13 @@
 
       .section {
         padding: 70px 0;
+      }
+
+      @media (min-width: 960px) {
+        .hero-grid {
+          grid-template-columns: 1.2fr 1fr;
+          gap: 56px;
+        }
       }
 
       .section.alt {
