@@ -437,6 +437,62 @@
       .team-body {
         padding: 14px 18px 20px;
       }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .metric-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(226, 239, 254, 0.92));
+        border: 1px solid var(--card-outline);
+        border-radius: 16px;
+        padding: 22px 18px;
+        text-align: center;
+        box-shadow: 0 10px 26px rgba(18, 52, 89, 0.14);
+        transition: transform 0.24s ease, box-shadow 0.24s ease;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 34px rgba(18, 52, 89, 0.2);
+      }
+
+      .metric-value {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.1rem, 4vw, 2.8rem);
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+
+      .metric-label {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+
+      .metric-accent {
+        position: relative;
+        display: inline-block;
+      }
+
+      .metric-accent::after {
+        content: "";
+        position: absolute;
+        left: 15%;
+        right: 15%;
+        bottom: -8px;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(120deg, rgba(31, 111, 139, 0.4), rgba(79, 157, 181, 0.35));
+        filter: blur(1px);
+        opacity: 0.8;
+      }
       .testimonials-wrap {
         max-width: 900px;
         margin: 0 auto;
@@ -714,26 +770,26 @@
           <div class="section-header testimonials-wrap">
             <h2>Testimonials</h2>
             <p class="muted">We value client feedback and thank you for your continued support.</p>
-            <p class="muted">Though we are new in our official capacity, we have proven ourselves by delivering quality work.</p>
+            <p class="muted">With over a decade of practice, we continue to prove ourselves by delivering quality work, project after project.</p>
           </div>
           <div class="testimonials-wrap">
             <div class="testimonial-frame reveal-up" id="testimonialFrame">
               <div class="testimonial-track" id="testimonialTrack">
                 <article class="testimonial-slide">
                   <div class="testimonial-card">
-                    <p class="testimonial-quote">"Though new in their official capacity, they have proven themselves by doing an excellent job. I can happily recommend this firm to others."</p>
+                    <p class="testimonial-quote">"With 10+ years of experience behind them, the team delivered an excellent job. I can happily recommend this firm to others."</p>
                     <p class="testimonial-author">Jennifer T.</p>
                   </div>
                 </article>
                 <article class="testimonial-slide">
                   <div class="testimonial-card">
-                    <p class="testimonial-quote">"I am fully confident that my next project will also be handled by this team."</p>
+                    <p class="testimonial-quote">"I am fully confident that my next project will also be handled by this seasoned team."</p>
                     <p class="testimonial-author">Brian P.</p>
                   </div>
                 </article>
                 <article class="testimonial-slide">
                   <div class="testimonial-card">
-                    <p class="testimonial-quote">"I came up with an idea and watched them develop it into something great. I truly consider them one of the most pocket-friendly architectural firms."</p>
+                    <p class="testimonial-quote">"I came up with an idea and watched them develop it into something great. Their decade of craft shows in the details and efficiency."</p>
                     <p class="testimonial-author">Angela C.</p>
                   </div>
                 </article>
@@ -780,6 +836,28 @@
                   </div>
                 </article>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="proof">
+        <div class="container">
+          <div class="section-header">
+            <h2>Proven Delivery</h2>
+            <p class="muted">A track record forged over more than ten years of practice.</p>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-card reveal-up">
+              <p class="metric-value metric-accent"><span data-countup="10" data-suffix="+">0</span></p>
+              <p class="metric-label">Years of experience</p>
+            </div>
+            <div class="metric-card reveal-up">
+              <p class="metric-value metric-accent"><span data-countup="200" data-suffix="+">0</span></p>
+              <p class="metric-label">Projects delivered</p>
+            </div>
+            <div class="metric-card reveal-up">
+              <p class="metric-value metric-accent"><span data-countup="20" data-suffix="+">0</span></p>
+              <p class="metric-label">Awards & recognitions</p>
             </div>
           </div>
         </div>
@@ -849,6 +927,39 @@
         revealItems.forEach(item => revealObserver.observe(item));
       } else {
         revealItems.forEach(item => item.classList.add("is-visible"));
+      }
+
+      const countTargets = document.querySelectorAll("[data-countup]");
+      if (countTargets.length) {
+        const easeOut = t => 1 - Math.pow(1 - t, 3);
+        const animateCount = el => {
+          if (el.dataset.counted) return;
+          el.dataset.counted = "true";
+          const target = parseInt(el.dataset.countup, 10) || 0;
+          const suffix = el.dataset.suffix || "";
+          const duration = 1600;
+          const start = performance.now();
+          const tick = now => {
+            const progress = Math.min((now - start) / duration, 1);
+            const value = Math.floor(easeOut(progress) * target);
+            el.textContent = value.toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        };
+
+        if ("IntersectionObserver" in window) {
+          const counterObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) return;
+              animateCount(entry.target);
+              counterObserver.unobserve(entry.target);
+            });
+          }, { threshold: 0.4 });
+          countTargets.forEach(el => counterObserver.observe(el));
+        } else {
+          countTargets.forEach(el => animateCount(el));
+        }
       }
 
       const testimonialTrack = document.getElementById("testimonialTrack");
