@@ -935,6 +935,9 @@
       const captchaRefreshBtn = document.getElementById("captchaRefreshBtn");
       const captchaFeedbackEl = document.getElementById("captchaFeedback");
       let captchaAnswer = null;
+      const mapFrame = document.getElementById("mapFrame");
+      const mapTabs = document.querySelectorAll(".map-tab");
+      const baseMapSrc = "https://www.google.com/maps?q=Reliance+Centre+Woodvale+Avenue+Westlands+Nairobi&output=embed";
 
       function prefillFromCheckout() {
         if (!contactMessageEl) return;
@@ -1004,23 +1007,23 @@
         });
       }
 
-      const contactFormCard = document.querySelector(".contact-form-card");
-      const contactInfoCard = document.querySelector(".contact-info-card");
-
-      function syncContactCardHeights() {
-        if (!contactFormCard || !contactInfoCard) return;
-        contactFormCard.style.height = "auto";
-        contactInfoCard.style.height = "auto";
-
-        if (window.innerWidth <= 760) return;
-
-        const tallest = Math.max(contactFormCard.offsetHeight, contactInfoCard.offsetHeight);
-        contactFormCard.style.height = tallest + "px";
-        contactInfoCard.style.height = tallest + "px";
+      function setMap(type) {
+        if (!mapFrame) return;
+        const url = baseMapSrc + (type ? "&t=" + type : "");
+        mapFrame.src = url;
       }
 
-      window.addEventListener("resize", syncContactCardHeights);
-      syncContactCardHeights();
+      if (mapTabs.length) {
+        mapTabs.forEach(tab => {
+          tab.addEventListener("click", () => {
+            mapTabs.forEach(t => t.classList.remove("is-active"));
+            tab.classList.add("is-active");
+            setMap(tab.dataset.maptype || "");
+          });
+        });
+      }
+
+      // Card height sync removed (layout is balanced by grid)
       prefillFromCheckout();
 
     </script>
