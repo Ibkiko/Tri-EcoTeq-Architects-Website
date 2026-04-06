@@ -446,32 +446,37 @@
       }
 
       .metric-card {
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(226, 239, 254, 0.92));
-        border: 1px solid var(--card-outline);
+        background: linear-gradient(180deg, #fdfefe 0%, #e8f1fb 100%);
+        border: 1px solid rgba(31, 111, 139, 0.22);
         border-radius: 16px;
         padding: 22px 18px;
         text-align: center;
-        box-shadow: 0 10px 26px rgba(18, 52, 89, 0.14);
+        box-shadow:
+          0 10px 26px rgba(18, 52, 89, 0.14),
+          inset 0 1px 0 rgba(255, 255, 255, 0.6);
         transition: transform 0.24s ease, box-shadow 0.24s ease;
+        color: #1b2f45;
       }
 
       .metric-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 16px 34px rgba(18, 52, 89, 0.2);
+        box-shadow:
+          0 16px 34px rgba(18, 52, 89, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.65);
       }
 
       .metric-value {
         font-family: "Playfair Display", serif;
         font-size: clamp(2.1rem, 4vw, 2.8rem);
         font-weight: 700;
-        color: var(--accent);
+        color: #1f6f8b;
         letter-spacing: -0.01em;
         margin: 0;
       }
 
       .metric-label {
         margin: 6px 0 0;
-        color: var(--muted);
+        color: #4f667f;
         font-weight: 500;
         letter-spacing: 0.01em;
       }
@@ -489,9 +494,9 @@
         bottom: -8px;
         height: 4px;
         border-radius: 999px;
-        background: linear-gradient(120deg, rgba(31, 111, 139, 0.4), rgba(79, 157, 181, 0.35));
-        filter: blur(1px);
-        opacity: 0.8;
+        background: linear-gradient(120deg, rgba(31, 111, 139, 0.5), rgba(79, 157, 181, 0.45));
+        filter: blur(0.6px);
+        opacity: 0.9;
       }
       .testimonials-wrap {
         max-width: 900px;
@@ -616,6 +621,29 @@
 
       .muted {
         color: var(--muted);
+      }
+
+      body[data-theme="dark"] .metric-card {
+        background: linear-gradient(185deg, rgba(26, 41, 57, 0.97), rgba(14, 25, 37, 0.95));
+        border-color: rgba(142, 213, 236, 0.42);
+        box-shadow:
+          0 14px 30px rgba(0, 0, 0, 0.32),
+          inset 0 1px 0 rgba(142, 213, 236, 0.18);
+        color: #eaf4fd;
+      }
+
+      body[data-theme="dark"] .metric-value {
+        color: #8ed5ec;
+      }
+
+      body[data-theme="dark"] .metric-label {
+        color: #b6cbde;
+      }
+
+      body[data-theme="dark"] .metric-accent::after {
+        background: linear-gradient(120deg, rgba(142, 213, 236, 0.85), rgba(79, 157, 181, 0.78));
+        filter: blur(0.8px);
+        opacity: 1;
       }
       @media (max-width: 760px) {
         .nav {
